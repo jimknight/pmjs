@@ -1,0 +1,443 @@
+/*!
+ * # Semantic UI x.x - Step
+ * http://github.com/semantic-org/semantic-ui/
+ *
+ *
+ * Copyright 2014 Contributors
+ * Released under the MIT license
+ * http://opensource.org/licenses/MIT
+ *
+ */
+
+
+/*******************************
+           Singular
+*******************************/
+
+.ui.steps .step {
+  position: relative;
+  display: table-cell;
+  vertical-align: middle;
+  margin: 0em 0em;
+  padding: 1em 1.5em 1em 2.25em;
+  background: -webkit-linear-gradient(transparent, rgba(0, 0, 0, 0.07));
+  background: linear-gradient(transparent, rgba(0, 0, 0, 0.07));
+  color: rgba(0, 0, 0, 0.8);
+  box-shadow: 0px 0px 0px 1px #d4d4d5;
+  border-radius: 0em;
+}
+.ui.steps .step:after {
+  position: absolute;
+  z-index: 2;
+  content: '';
+  top: 100%;
+  right: 50%;
+  border: medium none;
+  background-color: #ffffff;
+  width: 1.5em;
+  height: 1.5em;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+      -ms-transform: translateY(-50%) translateX(50%) rotate(-45deg);
+          transform: translateY(-50%) translateX(50%) rotate(-45deg);
+}
+.ui.steps .step,
+.ui.steps .step:after {
+  -webkit-transition: background-color 0.2s ease, opacity 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+          transition: background-color 0.2s ease, opacity 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+}
+
+
+/*******************************
+            Plural
+*******************************/
+
+.ui.steps {
+  display: table;
+  table-layout: fixed;
+  background: #ffffff;
+  box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.15);
+  line-height: 1.33;
+  box-sizing: border-box;
+  border-radius: 0.2857rem;
+}
+.ui.steps .step:first-child {
+  padding-left: 1.5em;
+  border-radius: 0.2857rem 0em 0em 0.2857rem;
+}
+.ui.steps .step:last-child {
+  border-radius: 0em 0.2857rem 0.2857rem 0em;
+}
+.ui.steps .step:only-child {
+  border-radius: 0.2857rem;
+}
+.ui.steps .step:last-child {
+  margin-right: 0em;
+}
+.ui.steps .step:last-child:after {
+  display: none;
+}
+
+
+/*******************************
+            Content
+*******************************/
+
+
+/* Title */
+.ui.steps .step .title {
+  font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  font-size: 1.0714em;
+  font-weight: bold;
+}
+
+/* Description */
+.ui.steps .step .description {
+  font-weight: normal;
+  font-size: 0.9285em;
+  color: rgba(0, 0, 0, 0.8);
+}
+.ui.steps .step .title ~ .description {
+  margin-top: 0.1em;
+}
+
+/* Icon */
+.ui.steps .step > .icon,
+.ui.steps .step > .icon ~ .content {
+  display: table-cell;
+  vertical-align: middle;
+}
+.ui.steps .step > .icon {
+  font-size: 2em;
+  margin: 0em;
+  padding-right: 0.6em;
+}
+
+/* Link */
+.ui.steps .link.step,
+.ui.steps a.step {
+  cursor: pointer;
+}
+
+
+/*******************************
+            Types
+*******************************/
+
+
+/*--------------
+     Ordered
+---------------*/
+
+.ui.ordered.steps {
+  counter-reset: ordered;
+}
+.ui.ordered.steps .step:before {
+  display: table-cell;
+  position: static;
+  text-align: center;
+  content: counters(ordered, ".");
+  vertical-align: middle;
+  padding-right: 0.6em;
+  font-size: 2em;
+  counter-increment: ordered;
+}
+.ui.ordered.steps .step > * {
+  display: table-cell;
+  vertical-align: middle;
+}
+
+/*--------------
+    Vertical
+---------------*/
+
+.ui.vertical.steps {
+  display: inline-block;
+  overflow: visible;
+}
+.ui.vertical.steps .step {
+  display: block;
+  border-radius: 0em;
+  padding: 1em 1.5em;
+}
+.ui.vertical.steps .step:first-child {
+  padding: 1em 1.5em;
+  border-radius: 0.2857rem 0.2857rem 0em 0em;
+}
+.ui.vertical.steps .step:last-child {
+  border-radius: 0em 0em 0.2857rem 0.2857rem;
+}
+
+/* Arrow */
+.ui.vertical.steps .step:after {
+  display: none;
+}
+
+/* Active Arrow */
+.ui.vertical.steps .active.step:after {
+  display: block;
+}
+
+/*---------------
+    Responsive
+----------------*/
+
+
+/* Mobile (Default) */
+@media only screen and (max-width: 767px) {
+  .ui.steps {
+    overflow: visible;
+  }
+  .ui.steps .step {
+    display: block;
+    border-radius: 0em;
+    padding: 1em 1.5em;
+  }
+  .ui.steps .step:first-child {
+    padding: 1em 1.5em;
+    border-radius: 0.2857rem 0.2857rem 0em 0em;
+  }
+  .ui.steps .step:last-child {
+    border-radius: 0em 0em 0.2857rem 0.2857rem;
+  }
+  
+/* Arrow */
+  .ui.steps .step:after {
+    display: none;
+  }
+}
+
+
+/*******************************
+             States
+*******************************/
+
+
+/* Link Hover */
+.ui.steps .link.step:hover::after,
+.ui.steps .link.step:hover,
+.ui.steps a.step:hover::after,
+.ui.steps a.step:hover {
+  background: #fafafa;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Link Down */
+.ui.steps .link.step:active::after,
+.ui.steps .link.step:active,
+.ui.steps a.step:active::after,
+.ui.steps a.step:active {
+  background: #f0f0f0;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Active */
+.ui.steps .step.active {
+  cursor: auto;
+  background: #ffffff;
+}
+.ui.steps .step.active:after {
+  background: #ffffff;
+}
+.ui.steps .step.active .title {
+  color: #009fda;
+}
+.ui.ordered.steps .step.active:before,
+.ui.steps .active.step .icon {
+  color: rgba(0, 0, 0, 0.85);
+}
+
+/* Active Hover */
+.ui.steps .link.active.step:hover::after,
+.ui.steps .link.active.step:hover,
+.ui.steps a.active.step:hover::after,
+.ui.steps a.active.step:hover {
+  cursor: pointer;
+  background: #ececec;
+  color: rgba(0, 0, 0, 0.8);
+}
+
+/* Completed */
+.ui.steps .step.completed > .icon:before,
+.ui.ordered.steps .step.completed:before {
+  color: #5bbd72;
+}
+
+/* Disabled */
+.ui.steps .disabled.step {
+  cursor: auto;
+  background: #ffffff;
+  pointer-events: none;
+}
+.ui.steps .disabled.step,
+.ui.steps .disabled.step .title,
+.ui.steps .disabled.step .description {
+  color: rgba(40, 40, 40, 0.3);
+}
+.ui.steps .disabled.step:after {
+  background: #ffffff;
+}
+
+
+/*******************************
+           Variations
+*******************************/
+
+
+/*--------------
+   Stackable
+---------------*/
+
+
+/* Tablet Or Below */
+@media only screen and (min-width: 992px) {
+  .ui[class*="tablet stackable"].steps {
+    overflow: visible;
+  }
+  .ui[class*="tablet stackable"].steps .step {
+    display: block;
+    border-radius: 0em;
+    padding: 1em 1.5em;
+  }
+  .ui[class*="tablet stackable"].steps .step:first-child {
+    padding: 1em 1.5em;
+    border-radius: 0.2857rem 0.2857rem 0em 0em;
+  }
+  .ui[class*="tablet stackable"].steps .step:last-child {
+    border-radius: 0em 0em 0.2857rem 0.2857rem;
+  }
+  
+/* Arrow */
+  .ui[class*="tablet stackable"].steps .step:after {
+    display: none;
+  }
+}
+
+/*--------------
+      Fluid
+---------------*/
+
+
+/* Fluid */
+.ui.fluid.steps {
+  width: 100%;
+}
+
+/*--------------
+    Attached
+---------------*/
+
+
+/* Top */
+.attached.ui.steps {
+  margin: 0em;
+  border-radius: 0.2857rem 0.2857rem 0em 0em;
+}
+.attached.ui.steps .step:first-child {
+  border-radius: 0.2857rem 0em 0em 0em;
+}
+.attached.ui.steps .step:last-child {
+  border-radius: 0em 0.2857rem 0em 0em;
+}
+
+/* Bottom */
+.bottom.attached.ui.steps {
+  margin: -1px 0em 0em;
+  border-radius: 0em 0em 0.2857rem 0.2857rem;
+}
+.bottom.attached.ui.steps .step:first-child {
+  border-radius: 0em 0em 0em 0.2857rem;
+}
+.bottom.attached.ui.steps .step:last-child {
+  border-radius: 0em 0em 0.2857rem 0em;
+}
+
+/*-------------------
+    Evenly Divided
+--------------------*/
+
+.ui.one.steps,
+.ui.two.steps,
+.ui.three.steps,
+.ui.four.steps,
+.ui.five.steps,
+.ui.six.steps,
+.ui.seven.steps,
+.ui.eight.steps {
+  width: 100%;
+}
+.ui.one.steps > .step {
+  width: 100%;
+}
+.ui.two.steps > .step {
+  width: 50%;
+}
+.ui.three.steps > .step {
+  width: 33.333%;
+}
+.ui.four.steps > .step {
+  width: 25%;
+}
+.ui.five.steps > .step {
+  width: 20%;
+}
+.ui.six.steps > .step {
+  width: 16.666%;
+}
+.ui.seven.steps > .step {
+  width: 14.285%;
+}
+.ui.eight.steps > .step {
+  width: 12.500%;
+}
+
+/*-------------------
+       Sizes
+--------------------*/
+
+.ui.small.step,
+.ui.small.steps .step {
+  font-size: 0.92857143rem;
+}
+.ui.step,
+.ui.steps .step {
+  font-size: 1rem;
+}
+.ui.large.step,
+.ui.large.steps .step {
+  font-size: 1.14285714rem;
+}
+
+
+/*******************************
+           Overrides
+*******************************/
+
+.ui.steps .step:after {
+  display: none;
+}
+.ui.steps .completed.step:before {
+  opacity: 0.5;
+}
+.ui.steps .step.active:after {
+  display: block;
+  border: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-left: 1px solid rgba(0, 0, 0, 0.2);
+}
+.ui.vertical.steps .step.active:after {
+  display: block;
+  border: none;
+  top: 50%;
+  right: 0%;
+  border-left: none;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+  border-right: 1px solid rgba(0, 0, 0, 0.2);
+}
+
+
+/*******************************
+         Site Overrides
+*******************************/
+
