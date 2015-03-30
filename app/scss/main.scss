@@ -1,3 +1,29 @@
 body {
   background: white;
 }
+
+#emailtasks {
+  i {
+    display:inline-block;
+    float:left;
+  }
+  .actionbuttons {
+    float:right;
+  }
+}
+
+.button.icon {
+  &:hover {
+    color:green;
+  }
+}
+div.remove.icon {
+  &:hover {
+    color:red;
+  }
+}
+div.trash.icon {
+  &:hover {
+    color:red;
+  }
+}
