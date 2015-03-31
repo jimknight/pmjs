@@ -45,16 +45,29 @@ gulp.task('lint', function() {
   .pipe(jshint.reporter('default'));
 });
 
+var react = require('gulp-react');
+gulp.task('jsx', function () {
+    return gulp.src('app/components/*.jsx')
+        .pipe(react())
+        .pipe(gulp.dest('app/assets/js/components/'));
+});
+
+gulp.task('concatjs', function() {
+  return gulp.src('./app/assets/**/*.js')
+    .pipe(concat('app.js'))
+    .pipe(gulp.dest('./app/'));
+});
+
 /** JavaScript compilation */
 gulp.task('js', function() {
-  return browserify(package.paths.app)
+  browserify('./app/app.js')
   .transform(reactify)
   .bundle()
   .pipe(source(package.dest.app))
   .pipe(gulp.dest(package.dest.dist));
 });
 gulp.task('js:min', function() {
-  return browserify(package.paths.app)
+  browserify(package.paths.app)
   .transform(reactify)
   .bundle()
   .pipe(source(package.dest.app))
@@ -66,15 +79,15 @@ gulp.task('js:min', function() {
 /**
  * Compiling resources and serving application
  */
-gulp.task('serve', ['lint', 'sass', 'js', 'server'], function() {
+gulp.task('serve', ['lint', 'sass', 'jsx', 'concatjs', 'js', 'server'], function() {
   return gulp.watch([
     package.paths.js, package.paths.jsx, package.paths.html, package.paths.sass
   ], [
-   'lint', 'sass', 'js', browserSync.reload
+   'lint', 'sass', 'jsx', 'concatjs', 'js', browserSync.reload
   ]);
 });
 
-gulp.task('serve:minified', ['lint', 'sass:min', 'js:min', 'server'], function() {
+gulp.task('serve:minified', ['lint', 'sass:min', 'jsx:min', 'concatjs', 'js:min', 'server'], function() {
   return gulp.watch([
     package.paths.js, package.paths.jsx, package.paths.html, package.paths.sass
   ], [

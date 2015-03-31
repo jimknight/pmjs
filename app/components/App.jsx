@@ -14,14 +14,6 @@ var Calendar = React.createClass({
   }
 });
 
-var Dashboard = React.createClass({
-  render: function() {
-    return (
-      <h2>Dashboard</h2>
-    );
-  }
-});
-
 var EmailBody = React.createClass({
   render: function() {
     return (
