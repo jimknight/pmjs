@@ -1,19 +1,50 @@
-var gulp = require('gulp'),
-    del = require('del'),
-    run = require('gulp-run'),
-    sass = require('gulp-sass'),
-    cssmin = require('gulp-minify-css'),
-    browserify = require('browserify'),
-    uglify = require('gulp-uglify'),
-    concat = require('gulp-concat'),
-    jshint = require('gulp-jshint'),
-    browserSync = require('browser-sync'),
-    source = require('vinyl-source-stream'),
-    buffer = require('vinyl-buffer'),
-    reactify = require('reactify'),
-    package = require('./package.json'),
-    reload = browserSync.reload;
-var debug = require('gulp-debug');
+var gulp        = require('gulp');
+var browserify  = require('browserify');
+var concat      = require('gulp-concat');
+var react       = require('gulp-react');
+var sass        = sass = require('gulp-sass');
+var source      = require('vinyl-source-stream');
+var sourcemaps  = require('gulp-sourcemaps');
+var browserSync = require('browser-sync');
+
+// Convert scss to css
+gulp.task('scss', function() {
+  gulp.src('./app/assets/scss/*.scss')
+    .pipe(sourcemaps.init())
+    .pipe(sass())
+    .pipe(sourcemaps.write())
+    .pipe(gulp.dest('./app/assets/css/'))
+});
+
+// Compact all the css to one file
+gulp.task('concatcss', function() {
+  return gulp.src('./app/assets/css/*.css')
+    .pipe(concat('styles.css'))
+    .pipe(gulp.dest('./app/'));
+});
+
+// Convert all custom js files into one js
+gulp.task('js', function () {
+  gulp.src('app/assets/js/**/*.js')
+  .pipe(concat('allcustomfiles.js'))
+  .pipe(gulp.dest('app'))
+});
+
+// Convert all the jsx files into one js
+gulp.task('jsx', function () {
+  gulp.src('app/components/*.jsx')
+  .pipe(concat('allreactfiles.js'))
+  .pipe(react())
+  .pipe(gulp.dest('app'))
+});
+
+// Build out the requires
+gulp.task('build', function() {
+  browserify('./app/app.js')
+  .bundle()
+  .pipe(source('bundle.js'))
+  .pipe(gulp.dest('./app/'));
+});
 
 gulp.task('server', function() {
   browserSync({
@@ -21,78 +52,4 @@ gulp.task('server', function() {
   });
 });
 
-// Compile sass into CSS & auto-inject into browsers
-gulp.task('sass', function() {
-  return gulp.src([package.paths.sass,package.paths.css])
-  .pipe(sass())
-  .pipe(concat(package.dest.style))
-  .pipe(gulp.dest(package.dest.dist));
-});
-gulp.task('sass:min', function() {
-  return gulp.src(package.paths.sass)
-  .pipe(sass())
-  .pipe(concat(package.dest.style))
-  .pipe(cssmin())
-  .pipe(gulp.dest(package.dest.dist));
-});
-
-/**
- * JSLint/JSHint validation
- */
-gulp.task('lint', function() {
-  return gulp.src(package.paths.js)
-  .pipe(jshint())
-  .pipe(jshint.reporter('default'));
-});
-
-var react = require('gulp-react');
-gulp.task('jsx', function () {
-    return gulp.src('app/components/*.jsx')
-        .pipe(react())
-        .pipe(gulp.dest('app/assets/js/components/'));
-});
-
-gulp.task('concatjs', function() {
-  return gulp.src('./app/assets/**/*.js')
-    .pipe(concat('app.js'))
-    .pipe(gulp.dest('./app/'));
-});
-
-/** JavaScript compilation */
-gulp.task('js', function() {
-  browserify('./app/app.js')
-  .transform(reactify)
-  .bundle()
-  .pipe(source(package.dest.app))
-  .pipe(gulp.dest(package.dest.dist));
-});
-gulp.task('js:min', function() {
-  browserify(package.paths.app)
-  .transform(reactify)
-  .bundle()
-  .pipe(source(package.dest.app))
-  .pipe(buffer())
-  .pipe(uglify())
-  .pipe(gulp.dest(package.dest.dist));
-});
-
-/**
- * Compiling resources and serving application
- */
-gulp.task('serve', ['lint', 'sass', 'jsx', 'concatjs', 'js', 'server'], function() {
-  return gulp.watch([
-    package.paths.js, package.paths.jsx, package.paths.html, package.paths.sass
-  ], [
-   'lint', 'sass', 'jsx', 'concatjs', 'js', browserSync.reload
-  ]);
-});
-
-gulp.task('serve:minified', ['lint', 'sass:min', 'jsx:min', 'concatjs', 'js:min', 'server'], function() {
-  return gulp.watch([
-    package.paths.js, package.paths.jsx, package.paths.html, package.paths.sass
-  ], [
-   'lint', 'sass:min', 'js:min', browserSync.reload
-  ]);
-});
-
-gulp.task('default', ['serve']);
+gulp.task('default', ['scss','concatcss','js','jsx','build','server']);

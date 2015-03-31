@@ -57,7 +57,7 @@
     "js": ["app/assets/js/*.js"],
     "jsx": "./app/components/*.jsx",
     "app": "./app/app.js",
-    "html": "*.html"
+    "html": "./app/**/*.html"
   },
   "dest": {
     "style": "style.css",

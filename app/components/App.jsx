@@ -6,38 +6,6 @@ var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-var Calendar = React.createClass({
-  render: function() {
-    return (
-      <h2>Calender</h2>
-    );
-  }
-});
-
-var EmailBody = React.createClass({
-  render: function() {
-    return (
-      <h2>email_body</h2>
-    );
-  }
-});
-
-var Inbox = React.createClass({
-  render: function() {
-    return (
-      <h2>inbox</h2>
-    );
-  }
-});
-
-var ProjectShowAction = React.createClass({
-  render: function() {
-    return (
-      <h2>project_show_action</h2>
-    );
-  }
-});
-
 var App = React.createClass({
   render: function () {
     return (
