@@ -1,1 +1,0 @@
-{"version":3,"sources":["inbox.jsx"],"names":[],"mappings":"AAAA,IAAI,2BAA2B,qBAAA;EAC7B,MAAM,EAAE,WAAW;IACjB;MACE,oBAAA,IAAG,EAAA,IAAC,EAAA,OAAU,CAAA;MACd;GACH;CACF,CAAC","file":"inbox.js","sourcesContent":["var Inbox = React.createClass({\n  render: function() {\n    return (\n      <h2>inbox</h2>\n    );\n  }\n});"],"sourceRoot":"/source/"}

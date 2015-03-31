@@ -1,1 +1,0 @@
-{"version":3,"sources":["email_body.jsx"],"names":[],"mappings":"AAAA,IAAI,+BAA+B,yBAAA;EACjC,MAAM,EAAE,WAAW;IACjB;MACE,oBAAA,IAAG,EAAA,IAAC,EAAA,YAAe,CAAA;MACnB;GACH;CACF,CAAC","file":"email_body.js","sourcesContent":["var EmailBody = React.createClass({\n  render: function() {\n    return (\n      <h2>email_body</h2>\n    );\n  }\n});"],"sourceRoot":"/source/"}
