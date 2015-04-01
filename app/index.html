@@ -10,16 +10,18 @@
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/3.5.0/lodash.min.js"></script>
+    <script src="assets/js/semantic/semantic.js"></script>
+    <script src="assets/js/semantic/dimmer.js"></script>
+    <script src="assets/js/semantic/popup.js"></script>
   </head>
 
   <body>
-    <projectshow></projectshow>
-    <script src="src/projectshow.tag" type="riot/tag"></script>
-    <script src="src/displayemail.tag" type="riot/tag"></script>
+    <project_show></project_show>
+    <script src="src/project_show.tag" type="riot/tag"></script>
+    <script src="src/displayed_email.tag" type="riot/tag"></script>
     <script src="src/email_list.tag" type="riot/tag"></script>
     <script src="src/navigation.tag" type="riot/tag"></script>
     <script src="https://cdn.jsdelivr.net/g/riot@2.0(riot.min.js+compiler.min.js)"></script>
-
     <script>
       riot.mount('*');
     // riot.mount('todo', {

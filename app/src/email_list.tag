@@ -6,7 +6,7 @@
       </div>
       <div class='fourteen wide column'>
         <div class='content'>
-          <a class='header'>{subject}</a>
+          <a class='header' href={'projects/23/emails/' + id}>{subject}</a>
           <div class='meta'>
             <span class='cinema'>from {sent_from} 5 minutes ago</span>
           </div>
@@ -31,31 +31,6 @@
 
 <email_list>
   <div class='ui divided items'>
-    <email_selector each={emails}></email_selector>
+    <email_selector each={opts.emails}></email_selector>
   </div>
-
-
-
-
-  <script>
-
-  loadEmailsFromServer() {
-
-    $.ajax({
-      url: 'http://localhost:3000/projects/23/emails.json',
-      dataType: 'json',
-      success: function(data) {
-        this.update({ emails: data });
-      }.bind(this),
-      error: function(xhr, status, err) {
-        console.error('http://localhost:3000/projects/23/emails.json', status, err.toString());
-      }.bind(this)
-    });
-  }
-
-  this.emails = [];
-  this.loadEmailsFromServer();
-
-  </script>
-
 </email_list>

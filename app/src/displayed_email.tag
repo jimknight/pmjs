@@ -1,4 +1,32 @@
-<displayemail>
+<email_task>
+  <i class="circle thin icon red large"></i>
+  <div class="actionbuttons">
+    <div class="ui icon button pop checkmark" data-content="Mark task complete">
+      <i class="checkmark icon"></i>
+    </div>
+    <div class="ui icon button pop remove" data-content="Cancel task">
+      <i class="remove icon"></i>
+    </div>
+    <div class="ui icon button pop trash" data-content="Delete task">
+      <i class="trash icon"></i>
+    </div>
+  </div>
+  <div class="header">
+    High Priority
+  </div>
+  <div class="meta">Created 3 days ago</div>
+  <div class="content">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+  </div>
+</email_task>
+
+<email_tasks_list>
+  <div class="ui item">
+    <email_task></email_task>
+  </div>
+</email_tasks_list>
+
+<displayed_email>
   <div class="ui message dimmable">
     <div class="ui inverted dimmer">
       <div class="ui fluid form segment">
@@ -53,56 +81,16 @@
         Tasks
       </h4>
       <div class="ui divided items" id="emailtasks">
-        <div class="ui item">
-          <i class="circle thin icon red large"></i>
-          <div class="actionbuttons">
-            <div class="ui icon button pop checkmark" data-content="Mark task complete">
-              <i class="checkmark icon"></i>
-            </div>
-            <div class="ui icon button pop remove" data-content="Cancel task">
-              <i class="remove icon"></i>
-            </div>
-            <div class="ui icon button pop trash" data-content="Delete task">
-              <i class="trash icon"></i>
-            </div>
-          </div>
-          <div class="header">
-            High Priority
-          </div>
-          <div class="meta">Created 3 days ago</div>
-          <div class="content">
-            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-          </div>
-        </div>
-        <div class="ui item">
-          <i class="circle thin icon green large"></i>
-          <div class="actionbuttons">
-            <div class="ui icon button pop checkmark" data-content="Mark task complete">
-              <i class="checkmark icon"></i>
-            </div>
-            <div class="ui icon button pop remove" data-content="Cancel task">
-              <i class="remove icon"></i>
-            </div>
-            <div class="ui icon button pop trash" data-content="Delete task">
-              <i class="trash icon"></i>
-            </div>
-          </div>
-          <div class="header">Normal Priority</div>
-          <div class="meta">Created 3 days ago</div>
-          <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-        </div>
-        <div class="ui item">
-          <i class="checkmark icon green large"></i>
-          <div class="actionbuttons">
-            <div class="ui icon button pop trash" data-content="Delete task">
-              <i class="trash icon"></i>
-            </div>
-          </div>
-          <div class="header">Completed</div>
-          <div class="meta">Created 3 days ago</div>
-          <div class="content">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
-        </div>
+        <email_tasks_list></email_tasks_list>
       </div>
     </div>
   </div>
-</displayemail>
+
+  <script>
+    this.on('mount', function() {
+      var $node = $(this.root);
+      $node.find('.pop').popup();
+    });
+  </script>
+
+</displayed_email>
