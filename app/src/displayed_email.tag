@@ -1,24 +1,7 @@
 <displayed_email>
   <div class="ui message dimmable">
     <div class="ui inverted dimmer">
-      <div class="ui fluid form segment">
-        <div class="two fields">
-          <div class="field">
-            <label>First Name</label>
-            <input placeholder="First Name" type="text">
-          </div>
-          <div class="field">
-            <label>Last Name</label>
-            <input placeholder="Last Name" type="text">
-          </div>
-        </div>
-        <div class="field">
-          <label>User Text</label>
-          <textarea></textarea>
-        </div>
-        <div class="ui submit button">Submit</div>
-        <div class="ui button">Cancel</div>
-      </div>
+      <new_task_form globals={globals}></new_task_form>
     </div>
     <table style="margin-bottom:10px;width:100%;">
       <tr>
@@ -62,6 +45,34 @@
     });
   </script>
 </displayed_email>
+
+<new_task_form>
+  <div class="ui form segment" id="newtaskform">
+    <div class="field">
+      <input placeholder="Task title" type="text" name="title">
+    </div>
+    <div class="field">
+      <textarea placeholder="Task details" name="content"></textarea>
+    </div>
+    <div class="ui primary button" onclick={ saveBtn }>Save</div>
+    <div class="ui button" onclick={ cancelBtn }>Cancel</div>
+  </div>
+  <script>
+    this.project_show = this.parent.parent;
+    saveBtn() {
+      // do the ajax here and get the response to add
+      random_id = Math.floor((Math.random() * 1000) + 1);
+      new_task = { id: random_id, mode: "read", status: "Open", title: $("#newtaskform input").val() };
+      this.project_show.addNewTask(new_task);
+      $('#newtaskform input').val("");
+      $('newtaskform textarea').val("");
+      $('.dimmable').dimmer('hide');
+    };
+    cancelBtn() {
+      $('.dimmable').dimmer('hide');
+    };
+  </script>
+</new_task_form>
 
 <email_tasks_list>
   <div class="ui item">

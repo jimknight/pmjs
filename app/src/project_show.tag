@@ -36,6 +36,10 @@
         }.bind(this)
       });
     };
+    addNewTask(task) {
+      this.globals.email.tasks.unshift(task);
+      this.update();
+    };
     deleteTask(task_id) {
       task = this.findBy(this.globals.email.tasks,'id',task_id);
       var index = this.globals.email.tasks.indexOf(task);

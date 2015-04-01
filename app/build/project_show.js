@@ -21,6 +21,10 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
         }.bind(this)
       });
     }.bind(this);
+    this.addNewTask = function(task) {
+      this.globals.email.tasks.unshift(task);
+      this.update();
+    }.bind(this);
     this.deleteTask = function(task_id) {
       task = this.findBy(this.globals.email.tasks,'id',task_id);
       var index = this.globals.email.tasks.indexOf(task);
