@@ -55,7 +55,7 @@
         </td>
         <td style="width:200px;">
           <button onclick={ inc }>up</button>
-          {this.parent.email_id}
+          {this.parent.globals.email_id}
           <!-- {this.findEmail(opts.emails,'id',this.email_id).sent_from} -->
           <br/>sent 5 minutes ago
         </td>
@@ -89,9 +89,12 @@
   </div>
 
   <script>
-    inc() {
-      this.parent.update({ email_id: 'knight' });
-    };
+    this.emails = opts.globals.emails;
+    this.email_id = opts.globals.email_id;
+    console.log(this.emails);
+    console.log(this.email_id);
+    // this.email = this.findEmail(this.emails,"id",opts.globals.email_id);
+    // console.log(this.email);
     findEmail (arr, propName, propValue) {
       for (var i=0; i < arr.length; i++)
         if (arr[i][propName] == propValue)
@@ -103,7 +106,6 @@
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
-    this.email_id = opts.email_id;
     // riot.route(function(projects, project_id, emails, email_id) {
     //   console.log('change inside');
     //   this.update({ email_id: email_id });

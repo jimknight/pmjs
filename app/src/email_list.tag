@@ -1,6 +1,5 @@
 <email_selector>
   <div class='item'>
-    <h2>{email_id}</h2>
     <div class='ui grid'>
       <div class='two wide column'>
         <i class='circular user icon large'></i>
@@ -20,7 +19,6 @@
   </div>
 
   <script>
-    console.log(opts);
     // this.email_id = opts.email_id;
     bodyText(longString) {
       return _.trunc(longString, {
@@ -34,9 +32,6 @@
 
 <email_list>
   <div class='ui divided items'>
-    <email_selector each={opts.emails}></email_selector>
+    <email_selector each={opts.globals.emails}></email_selector>
   </div>
-  <script>
-    // console.log(opts.email_id);
-  </script>
 </email_list>
