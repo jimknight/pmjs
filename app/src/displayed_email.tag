@@ -1,28 +1,53 @@
+<email_task_action_buttons>
+  <div if={ opts.status=='Open' } class="ui icon button pop checkmark" onclick={ markTaskComplete } data-content="Mark task complete">
+    <i class="checkmark icon"></i>
+  </div>
+  <div class="ui icon button pop remove" data-content="Cancel task">
+    <i class="remove icon"></i>
+  </div>
+  <div class="ui icon button pop trash" data-content="Delete task">
+    <i class="trash icon"></i>
+  </div>
+  <script>
+    // this is crazy but only way I know how now
+    this.project_show = this.parent.parent.parent.parent.parent;
+    markTaskComplete() {
+      task_id = opts.id;
+      this.project_show.markTaskComplete(task_id);
+      this.update();
+    };
+  </script>
+</email_task_action_buttons>
+
 <email_task>
   <i class="circle thin icon red large"></i>
   <div class="actionbuttons">
-    <div class="ui icon button pop checkmark" data-content="Mark task complete">
-      <i class="checkmark icon"></i>
-    </div>
-    <div class="ui icon button pop remove" data-content="Cancel task">
-      <i class="remove icon"></i>
-    </div>
-    <div class="ui icon button pop trash" data-content="Delete task">
-      <i class="trash icon"></i>
-    </div>
+    <email_task_action_buttons id={this.parent.id} status={this.parent.status}></email_task_action_buttons>
   </div>
   <div class="header">
-    High Priority
+    {title} {status}
   </div>
   <div class="meta">Created 3 days ago</div>
   <div class="content">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
   </div>
+  <script>
+    markTaskComplete() {
+      task_id = this.id;
+      this.parent.parent.parent.parent.markTaskComplete(task_id);
+    };
+    // this.parent.parent.parent.parent.globals.emails[0].tasks[0].status="Closed";
+    // this.update();
+    this.on('mount', function() {
+      var $node = $(this.root);
+      $node.find('.pop').popup();
+    });
+  </script>
 </email_task>
 
 <email_tasks_list>
   <div class="ui item">
-    <email_task></email_task>
+    <email_task each={opts.globals.email.tasks}></email_task>
   </div>
 </email_tasks_list>
 
@@ -79,36 +104,16 @@
         Tasks
       </h4>
       <div class="ui divided items" id="emailtasks">
-        <email_tasks_list></email_tasks_list>
+        <email_tasks_list globals={opts.globals}></email_tasks_list>
       </div>
     </div>
   </div>
 
   <script>
-    // this.emails = opts.globals.emails;
-    // this.email_id = opts.globals.email_id;
-    // console.log(this.emails);
-    // console.log(this.email_id);
-    // this.email = this.findEmail(opts.globals.emails,"id",opts.globals.email_id);
-    // console.log(this.email);
-    // console.log(this.email);
-    findEmail (arr, propName, propValue) {
-      console.log("find");
-      for (var i=0; i < arr.length; i++)
-        console.log(i);
-        if (arr[i][propName] == propValue)
-          return arr[i];
-        else
-          return arr[0];
-    };
     this.on('mount', function() {
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
-    // riot.route(function(projects, project_id, emails, email_id) {
-    //   console.log('change inside');
-    //   this.update({ email_id: email_id });
-    // });
   </script>
 
 </displayed_email>
