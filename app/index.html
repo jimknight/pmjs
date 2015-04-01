@@ -27,10 +27,10 @@
         console.log('exec');
         riot.mount('project_show', { project_id: project_id, email_id: email_id });
       });
-      // riot.route(function(projects, project_id, emails, email_id) {
-      //   console.log('change');
-      //   riot.mount('project_show', { project_id: project_id, email_id: email_id });
-      // });
+      riot.route(function(projects, project_id, emails, email_id) {
+        console.log('change');
+        riot.mount('project_show', { project_id: project_id, email_id: email_id });
+      });
     </script>
   </body>
 

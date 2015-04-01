@@ -54,9 +54,9 @@
           <i class="user circular icon large" id="email-avatar"></i>
         </td>
         <td style="width:200px;">
-          <button onclick={ inc }>up</button>
-          {this.parent.globals.email_id}
-          <!-- {this.findEmail(opts.emails,'id',this.email_id).sent_from} -->
+          {opts.globals.email_id}
+          {opts.globals.email.sent_from}
+          <!-- {this.findEmail(this.globals.emails,'id',this.globals.email_id)} -->
           <br/>sent 5 minutes ago
         </td>
         <td style="text-align:right;">
@@ -70,14 +70,10 @@
       </tr>
     </table>
     <div class="header">
-      FW: Please perform this task
+      {opts.globals.email.subject}
     </div>
     <div class="content">
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec ultrices vel velit varius laoreet. Nunc luctus auctor vehicula. Sed semper, massa sed laoreet eleifend, metus erat porta arcu, sed ultricies enim metus vitae metus. Duis sodales, mi eu sollicitudin aliquam, nisl odio sagittis mauris, varius consequat mauris sem a lectus. Cras sit amet placerat ligula, id faucibus erat. Donec tincidunt sapien non convallis placerat. Aliquam a nisi in velit ornare tincidunt id at purus. Nam auctor lectus at ullamcorper auctor. Etiam nisl libero, consequat a leo eget, sollicitudin congue odio. Morbi a ornare nisi, in blandit ligula.
-      </p>
-      <p>Quisque sit amet maximus leo, quis euismod augue. Integer sed purus mattis, tempus ex ac, molestie eros. Maecenas pretium congue mauris, a posuere tortor. Vestibulum id scelerisque erat. Integer ornare, arcu ut semper tincidunt, elit ligula lacinia eros, quis pretium tellus diam quis lorem. Fusce pharetra ornare malesuada. Quisque quam elit, euismod iaculis elit non, imperdiet fermentum turpis. Duis ac iaculis nulla. Aenean pharetra est eget sem egestas, id accumsan ligula vehicula. Sed id fermentum lectus. Donec vestibulum dictum purus sit amet mattis. Aenean in gravida eros, quis dictum nulla.
-      </p>
-      <p>Etiam efficitur tellus et velit vehicula, a fringilla magna commodo. In molestie sapien a mi pellentesque facilisis. Morbi volutpat venenatis velit. Suspendisse id facilisis enim, sit amet tristique massa. Phasellus ac nisl nisi. Vivamus id diam pharetra, congue nisl feugiat, molestie nunc. Nam pulvinar pellentesque quam non egestas. Donec orci neque, tincidunt nec dignissim sit amet, viverra at leo. Phasellus posuere ex metus.</p>
+      {opts.globals.email.body_plain}
       <h4 class="ui horizontal header divider">
         <i class="tasks icon"></i>
         Tasks
@@ -89,14 +85,17 @@
   </div>
 
   <script>
-    this.emails = opts.globals.emails;
-    this.email_id = opts.globals.email_id;
-    console.log(this.emails);
-    console.log(this.email_id);
-    // this.email = this.findEmail(this.emails,"id",opts.globals.email_id);
+    // this.emails = opts.globals.emails;
+    // this.email_id = opts.globals.email_id;
+    // console.log(this.emails);
+    // console.log(this.email_id);
+    // this.email = this.findEmail(opts.globals.emails,"id",opts.globals.email_id);
+    // console.log(this.email);
     // console.log(this.email);
     findEmail (arr, propName, propValue) {
+      console.log("find");
       for (var i=0; i < arr.length; i++)
+        console.log(i);
         if (arr[i][propName] == propValue)
           return arr[i];
         else
