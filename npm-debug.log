@@ -1,0 +1,26 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'node', '/usr/local/bin/npm', 'run', 'watch:riot' ]
+2 info using npm@1.4.28
+3 info using node@v0.10.34
+4 verbose run-script [ 'prewatch:riot', 'watch:riot', 'postwatch:riot' ]
+5 info prewatch:riot pmjs@1.0.0
+6 info watch:riot pmjs@1.0.0
+7 verbose unsafe-perm in lifecycle true
+8 info pmjs@1.0.0 Failed to exec watch:riot script
+9 error pmjs@1.0.0 watch:riot: `riot -w app/src/ app/build/`
+9 error Exit status 1
+10 error Failed at the pmjs@1.0.0 watch:riot script.
+10 error This is most likely a problem with the pmjs package,
+10 error not with npm itself.
+10 error Tell the author that this fails on your system:
+10 error     riot -w app/src/ app/build/
+10 error You can get their info via:
+10 error     npm owner ls pmjs
+10 error There is likely additional logging output above.
+11 error System Darwin 14.1.0
+12 error command "node" "/usr/local/bin/npm" "run" "watch:riot"
+13 error cwd /Users/jimknight/react/pmjs
+14 error node -v v0.10.34
+15 error npm -v 1.4.28
+16 error code ELIFECYCLE
+17 verbose exit [ 1, true ]

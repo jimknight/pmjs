@@ -6,6 +6,7 @@ var sass        = sass = require('gulp-sass');
 var source      = require('vinyl-source-stream');
 var sourcemaps  = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
+var reload      = browserSync.reload;
 
 // Convert scss to css
 gulp.task('scss', function() {
@@ -48,8 +49,11 @@ gulp.task('build', function() {
 
 gulp.task('server', function() {
   browserSync({
-    server: './app'
+    server: './app',
+    port: 8080
   });
+  gulp.watch("app/*.html").on('change', reload);
+  gulp.watch("app/src/*.tag").on('change', reload);
 });
 
-gulp.task('default', ['scss','concatcss','js','jsx','build','server']);
+gulp.task('default', ['scss','concatcss','js','server']);
