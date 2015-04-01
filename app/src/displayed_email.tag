@@ -5,17 +5,19 @@
   <div class="ui icon button pop remove" data-content="Cancel task">
     <i class="remove icon"></i>
   </div>
-  <div class="ui icon button pop trash" data-content="Delete task">
+  <div class="ui icon button pop trash" onclick={ deleteTask } data-content="Delete task">
     <i class="trash icon"></i>
   </div>
   <script>
     // this is crazy but only way I know how now
     this.project_show = this.parent.parent.parent.parent.parent;
+    this.task_id = opts.id;
     markTaskComplete() {
-      task_id = opts.id;
-      this.project_show.markTaskComplete(task_id);
-      this.update();
+      this.project_show.markTaskComplete(this.task_id);
     };
+    deleteTask() {
+      this.project_show.deleteTask(this.task_id);
+    }
   </script>
 </email_task_action_buttons>
 

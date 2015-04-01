@@ -37,6 +37,12 @@
         }.bind(this)
       });
     };
+    deleteTask(task_id) {
+      task = this.findBy(this.globals.email.tasks,'id',task_id);
+      var index = this.globals.email.tasks.indexOf(task);
+      this.globals.email.tasks.splice(index, 1);
+      this.update();
+    };
     markTaskComplete(task_id) {
       task = this.findBy(this.globals.email.tasks,'id',task_id);
       task.status = "Complete"
