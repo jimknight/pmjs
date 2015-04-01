@@ -1,5 +1,11 @@
+<email_list>
+  <div class='ui divided items' id="emaillist">
+    <email_selector each={opts.globals.emails}></email_selector>
+  </div>
+</email_list>
+
 <email_selector>
-  <div class='item'>
+  <div class={this.parent.parent.parent.globals.email_id == id ? 'item active' : 'item'}>
     <div class='ui grid'>
       <div class='two wide column'>
         <i class='circular user icon large'></i>
@@ -27,11 +33,4 @@
       });
     };
   </script>
-
 </email_selector>
-
-<email_list>
-  <div class='ui divided items'>
-    <email_selector each={opts.globals.emails}></email_selector>
-  </div>
-</email_list>

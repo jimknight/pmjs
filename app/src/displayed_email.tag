@@ -1,58 +1,3 @@
-<email_task_action_buttons>
-  <div if={ opts.status=='Open' } class="ui icon button pop checkmark" onclick={ markTaskComplete } data-content="Mark task complete">
-    <i class="checkmark icon"></i>
-  </div>
-  <div class="ui icon button pop remove" data-content="Cancel task">
-    <i class="remove icon"></i>
-  </div>
-  <div class="ui icon button pop trash" onclick={ deleteTask } data-content="Delete task">
-    <i class="trash icon"></i>
-  </div>
-  <script>
-    // this is crazy but only way I know how now
-    this.project_show = this.parent.parent.parent.parent.parent;
-    this.task_id = opts.id;
-    markTaskComplete() {
-      this.project_show.markTaskComplete(this.task_id);
-    };
-    deleteTask() {
-      this.project_show.deleteTask(this.task_id);
-    }
-  </script>
-</email_task_action_buttons>
-
-<email_task>
-  <i class="circle thin icon red large"></i>
-  <div class="actionbuttons">
-    <email_task_action_buttons id={this.parent.id} status={this.parent.status}></email_task_action_buttons>
-  </div>
-  <div class="header">
-    {title} {status}
-  </div>
-  <div class="meta">Created 3 days ago</div>
-  <div class="content">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-  </div>
-  <script>
-    markTaskComplete() {
-      task_id = this.id;
-      this.parent.parent.parent.parent.markTaskComplete(task_id);
-    };
-    // this.parent.parent.parent.parent.globals.emails[0].tasks[0].status="Closed";
-    // this.update();
-    this.on('mount', function() {
-      var $node = $(this.root);
-      $node.find('.pop').popup();
-    });
-  </script>
-</email_task>
-
-<email_tasks_list>
-  <div class="ui item">
-    <email_task each={opts.globals.email.tasks}></email_task>
-  </div>
-</email_tasks_list>
-
 <displayed_email>
   <div class="ui message dimmable">
     <div class="ui inverted dimmer">
@@ -81,7 +26,6 @@
           <i class="user circular icon large" id="email-avatar"></i>
         </td>
         <td style="width:200px;">
-          {opts.globals.email_id}
           {opts.globals.email.sent_from}
           <!-- {this.findEmail(this.globals.emails,'id',this.globals.email_id)} -->
           <br/>sent 5 minutes ago
@@ -117,5 +61,59 @@
       $node.find('.pop').popup();
     });
   </script>
-
 </displayed_email>
+
+<email_tasks_list>
+  <div class="ui item">
+    <email_task each={opts.globals.email.tasks}></email_task>
+  </div>
+</email_tasks_list>
+
+<email_task>
+  <i class="circle thin icon red large"></i>
+  <div class="actionbuttons">
+    <email_task_action_buttons id={this.parent.id} status={this.parent.status}></email_task_action_buttons>
+  </div>
+  <div class="header">
+    {title} {status}
+  </div>
+  <div class="meta">Created 3 days ago</div>
+  <div class="content">
+    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+  </div>
+  <script>
+    markTaskComplete() {
+      task_id = this.id;
+      this.parent.parent.parent.parent.markTaskComplete(task_id);
+    };
+    // this.parent.parent.parent.parent.globals.emails[0].tasks[0].status="Closed";
+    // this.update();
+    this.on('mount', function() {
+      var $node = $(this.root);
+      $node.find('.pop').popup();
+    });
+  </script>
+</email_task>
+
+<email_task_action_buttons>
+  <div if={ opts.status=='Open' } class="ui icon button pop checkmark" onclick={ markTaskComplete } data-content="Mark task complete">
+    <i class="checkmark icon"></i>
+  </div>
+  <div class="ui icon button pop remove" data-content="Cancel task">
+    <i class="remove icon"></i>
+  </div>
+  <div class="ui icon button pop trash" onclick={ deleteTask } data-content="Delete task">
+    <i class="trash icon"></i>
+  </div>
+  <script>
+    // this is crazy but only way I know how now
+    this.project_show = this.parent.parent.parent.parent.parent;
+    this.task_id = opts.id;
+    markTaskComplete() {
+      this.project_show.markTaskComplete(this.task_id);
+    };
+    deleteTask() {
+      this.project_show.deleteTask(this.task_id);
+    }
+  </script>
+</email_task_action_buttons>

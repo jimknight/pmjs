@@ -1,4 +1,4 @@
-riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <h2>{globals.email_id}</h2> <div class="six wide column"> <email_list globals="{globals}"></email_list> </div> <div class="ten wide column"> <displayed_email globals="{globals}"></displayed_email> </div> </div> </div>', function(opts) {
+riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <div class="six wide column"> <email_list globals="{globals}"></email_list> </div> <div class="ten wide column"> <displayed_email globals="{globals}"></displayed_email> </div> </div> </div>', function(opts) {
     this.findBy = function(arr, propName, propValue) {
       for (var i=0; i < arr.length; i++) {
         if (arr[i][propName] == propValue) {

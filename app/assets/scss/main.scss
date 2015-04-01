@@ -2,6 +2,12 @@ body {
   background: white;
 }
 
+#emaillist {
+  .active {
+    background:#e0e0e0;
+  }
+}
+
 #emailtasks {
   i {
     display:inline-block;

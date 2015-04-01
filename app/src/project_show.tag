@@ -4,7 +4,6 @@
       <navigation></navigation>
     </div>
     <div class='row'>
-      <h2>{globals.email_id}</h2>
       <div class='six wide column'>
         <email_list globals={globals}></email_list>
       </div>
