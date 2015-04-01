@@ -54,7 +54,9 @@
           <i class="user circular icon large" id="email-avatar"></i>
         </td>
         <td style="width:200px;">
-          Wayne Scarano
+          <button onclick={ inc }>up</button>
+          {this.parent.email_id}
+          <!-- {this.findEmail(opts.emails,'id',this.email_id).sent_from} -->
           <br/>sent 5 minutes ago
         </td>
         <td style="text-align:right;">
@@ -87,10 +89,25 @@
   </div>
 
   <script>
+    inc() {
+      this.parent.update({ email_id: 'knight' });
+    };
+    findEmail (arr, propName, propValue) {
+      for (var i=0; i < arr.length; i++)
+        if (arr[i][propName] == propValue)
+          return arr[i];
+        else
+          return arr[0];
+    };
     this.on('mount', function() {
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
+    this.email_id = opts.email_id;
+    // riot.route(function(projects, project_id, emails, email_id) {
+    //   console.log('change inside');
+    //   this.update({ email_id: email_id });
+    // });
   </script>
 
 </displayed_email>
