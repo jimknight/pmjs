@@ -46,12 +46,12 @@
       this.globals.email.tasks.splice(index, 1);
       this.update();
     };
-    markTaskComplete(task_id) {
-      task = this.findBy(this.globals.email.tasks,'id',task_id);
-      task.status = "Complete"
-      // do some ajax
-      this.update();
-    };
+    // markTaskComplete(task_id) {
+    //   task = this.findBy(this.globals.email.tasks,'id',task_id);
+    //   task.status = "Complete"
+    //   // do some ajax
+    //   this.update();
+    // };
     this.globals = {
       emails: [],
       email_id: opts.email_id,

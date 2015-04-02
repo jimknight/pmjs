@@ -31,12 +31,12 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
       this.globals.email.tasks.splice(index, 1);
       this.update();
     }.bind(this);
-    this.markTaskComplete = function(task_id) {
-      task = this.findBy(this.globals.email.tasks,'id',task_id);
-      task.status = "Complete"
 
-      this.update();
-    }.bind(this);
+
+
+
+
+
     this.globals = {
       emails: [],
       email_id: opts.email_id,

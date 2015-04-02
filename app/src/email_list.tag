@@ -1,7 +1,10 @@
 <email_list>
   <div class='ui divided items' id="emaillist">
-    <email_selector each={opts.globals.emails}></email_selector>
+    <email_selector each={this.globals.emails} data="{ this }"></email_selector>
   </div>
+  <script>
+    this.globals = this.parent.globals;
+  </script>
 </email_list>
 
 <email_selector>
@@ -23,9 +26,8 @@
       </div>
     </div>
   </div>
-
   <script>
-    // this.email_id = opts.email_id;
+    this.globals = opts.data.parent.globals;
     bodyText(longString) {
       return _.trunc(longString, {
         'length': 50,

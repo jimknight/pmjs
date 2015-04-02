@@ -33,12 +33,13 @@
         Tasks
       </h4>
       <div class="ui divided items" id="emailtasks">
-        <email_tasks_list globals={opts.globals}></email_tasks_list>
+        <email_tasks_list></email_tasks_list>
       </div>
     </div>
   </div>
 
   <script>
+    this.globals = this.parent.globals;
     this.on('mount', function() {
       var $node = $(this.root);
       $node.find('.pop').popup();
@@ -97,14 +98,17 @@
 
 <email_tasks_list>
   <div class="ui item">
-    <email_task each={opts.globals.email.tasks}></email_task>
+    <email_task each={this.globals.email.tasks} data={ this }></email_task>
   </div>
+  <script>
+    this.globals = this.parent.globals;
+  </script>
 </email_tasks_list>
 
 <email_task>
   <i class="circle thin icon red large"></i>
   <div class="actionbuttons">
-    <email_task_action_buttons id={this.parent.id} status={this.parent.status}></email_task_action_buttons>
+    <email_task_action_buttons></email_task_action_buttons>
   </div>
   <div class="header">
     {title} {status}
@@ -114,21 +118,12 @@
     Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
   </div>
   <script>
-    markTaskComplete() {
-      task_id = this.id;
-      this.parent.parent.parent.parent.markTaskComplete(task_id);
-    };
-    // this.parent.parent.parent.parent.globals.emails[0].tasks[0].status="Closed";
-    // this.update();
-    this.on('mount', function() {
-      var $node = $(this.root);
-      $node.find('.pop').popup();
-    });
+    this.globals = opts.data.parent.globals;
   </script>
 </email_task>
 
 <email_task_action_buttons>
-  <div if={ opts.status=='Open' } class="ui icon button pop checkmark" onclick={ markTaskComplete } data-content="Mark task complete">
+  <div if={ this.parent.status=='Open' } class="ui icon button pop checkmark" onclick="{ markTaskComplete }" data-content="Mark task complete">
     <i class="checkmark icon"></i>
   </div>
   <div class="ui icon button pop remove" data-content="Cancel task">
@@ -138,14 +133,29 @@
     <i class="trash icon"></i>
   </div>
   <script>
-    // this is crazy but only way I know how now
-    this.project_show = this.parent.parent.parent.parent.parent;
-    this.task_id = opts.id;
-    markTaskComplete() {
-      this.project_show.markTaskComplete(this.task_id);
+    this.globals = this.parent.globals;
+    findBy (arr, propName, propValue) {
+      for (var i=0; i < arr.length; i++) {
+        if (arr[i][propName] == propValue) {
+          return arr[i];
+        }
+      }
+      return arr[0];
     };
     deleteTask() {
-      this.project_show.deleteTask(this.task_id);
-    }
+      task = this.findBy(this.globals.email.tasks,'id',this.parent.id);
+      var index = this.globals.email.tasks.indexOf(task);
+      this.globals.email.tasks.splice(index, 1);
+      riot.update();
+    }.bind(this);
+    markTaskComplete() {
+      task = this.findBy(this.globals.email.tasks,'id',this.parent.id)
+      task.status = 'Completed';
+      riot.update();
+    }.bind(this);
+    this.on('mount', function() {
+      var $node = $(this.root);
+      $node.find('.pop').popup();
+    });
   </script>
 </email_task_action_buttons>
