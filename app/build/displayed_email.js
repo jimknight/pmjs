@@ -6,16 +6,34 @@ riot.tag('displayed_email', '<div class="ui message dimmable"> <div class="ui in
   
 });
 
-riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div class="field"> <input placeholder="Task title" type="text" name="title"> </div> <div class="field"> <textarea placeholder="Task details" name="content"></textarea> </div> <div class="ui primary button" onclick="{ saveBtn }">Save</div> <div class="ui button" onclick="{ cancelBtn }">Cancel</div> </div>', function(opts) {
+riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div class="ui corner labeled input field"> <input placeholder="Task title" type="text" name="title" autofocus> <div class="ui corner label"> <i class="asterisk icon red"></i> </div> </div> <div class="field"> <textarea placeholder="Task details" name="content"></textarea> </div> <div class="ui primary submit button" onclick="{ saveBtn }">Save</div> <div class="ui button" onclick="{ cancelBtn }">Cancel</div> </div>', function(opts) {
     this.project_show = this.parent.parent;
     this.saveBtn = function() {
+      $('#newtaskform')
+      .form({
+        name: {
+          identifier  : 'title',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'Title is required'
+            }
+          ]
+        }
+      });
+      if ($('#newtaskform').form('validate form')) {
 
-      random_id = Math.floor((Math.random() * 1000) + 1);
-      new_task = { id: random_id, mode: "read", status: "Open", title: $("#newtaskform input").val() };
-      this.project_show.addNewTask(new_task);
-      $('#newtaskform input').val("");
-      $('newtaskform textarea').val("");
-      $('.dimmable').dimmer('hide');
+        random_id = Math.floor((Math.random() * 1000) + 1);
+        new_task = { id: random_id, mode: "read", status: "Open", title: $("#newtaskform input").val() };
+        this.project_show.addNewTask(new_task);
+        $('#newtaskform').form('reset');
+        $('#newtaskform input').val("");
+        $('#newtaskform textarea').val("");
+        $('.dimmable').dimmer('hide');
+      } else {
+        $('#newtaskform input').focus();
+        return false;
+      }
     }.bind(this);
     this.cancelBtn = function() {
       $('.dimmable').dimmer('hide');

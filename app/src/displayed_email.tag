@@ -48,25 +48,46 @@
 
 <new_task_form>
   <div class="ui form segment" id="newtaskform">
-    <div class="field">
-      <input placeholder="Task title" type="text" name="title">
+    <div class="ui corner labeled input field">
+      <input placeholder="Task title" type="text" name="title" autofocus>
+      <div class="ui corner label">
+        <i class="asterisk icon red"></i>
+      </div>
     </div>
     <div class="field">
       <textarea placeholder="Task details" name="content"></textarea>
     </div>
-    <div class="ui primary button" onclick={ saveBtn }>Save</div>
+    <div class="ui primary submit button" onclick={ saveBtn }>Save</div>
     <div class="ui button" onclick={ cancelBtn }>Cancel</div>
   </div>
   <script>
     this.project_show = this.parent.parent;
     saveBtn() {
-      // do the ajax here and get the response to add
-      random_id = Math.floor((Math.random() * 1000) + 1);
-      new_task = { id: random_id, mode: "read", status: "Open", title: $("#newtaskform input").val() };
-      this.project_show.addNewTask(new_task);
-      $('#newtaskform input').val("");
-      $('newtaskform textarea').val("");
-      $('.dimmable').dimmer('hide');
+      $('#newtaskform')
+      .form({
+        name: {
+          identifier  : 'title',
+          rules: [
+            {
+              type   : 'empty',
+              prompt : 'Title is required'
+            }
+          ]
+        }
+      });
+      if ($('#newtaskform').form('validate form')) {
+        // do the ajax here and get the response to add
+        random_id = Math.floor((Math.random() * 1000) + 1);
+        new_task = { id: random_id, mode: "read", status: "Open", title: $("#newtaskform input").val() };
+        this.project_show.addNewTask(new_task);
+        $('#newtaskform').form('reset');
+        $('#newtaskform input').val("");
+        $('#newtaskform textarea').val("");
+        $('.dimmable').dimmer('hide');
+      } else {
+        $('#newtaskform input').focus();
+        return false;
+      }
     };
     cancelBtn() {
       $('.dimmable').dimmer('hide');
