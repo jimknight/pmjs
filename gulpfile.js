@@ -1,8 +1,8 @@
 var gulp        = require('gulp');
 var browserify  = require('browserify');
 var concat      = require('gulp-concat');
-var react       = require('gulp-react');
-var sass        = sass = require('gulp-sass');
+var riot        = require('gulp-riot');
+var sass        = require('gulp-sass');
 var source      = require('vinyl-source-stream');
 var sourcemaps  = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
@@ -24,18 +24,24 @@ gulp.task('concatcss', function() {
     .pipe(gulp.dest('./app/'));
 });
 
+// Concat all the tag files and then convert
+gulp.task('concattag', function() {
+  return gulp.src('./app/src/*.tag')
+    .pipe(concat('alltags.tag'))
+    .pipe(gulp.dest('./app/'));
+});
+
+// Compile the all tag file
+gulp.task('compiletag', ['concattag'], function() {
+  return gulp.src('./app/alltags.tag')
+    .pipe(riot())
+    .pipe(gulp.dest('./app/'));
+});
+
 // Convert all custom js files into one js
 gulp.task('js', function () {
   gulp.src('app/assets/js/**/*.js')
   .pipe(concat('allcustomfiles.js'))
-  .pipe(gulp.dest('app'))
-});
-
-// Convert all the jsx files into one js
-gulp.task('jsx', function () {
-  gulp.src('app/components/*.jsx')
-  .pipe(concat('allreactfiles.js'))
-  .pipe(react())
   .pipe(gulp.dest('app'))
 });
 
@@ -56,4 +62,4 @@ gulp.task('server', function() {
   gulp.watch("app/src/*.tag").on('change', reload);
 });
 
-gulp.task('default', ['scss','concatcss','js','server']);
+gulp.task('default', ['scss','concatcss','compiletag', 'js','server']);
