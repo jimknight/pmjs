@@ -30,9 +30,9 @@
   <div if={ this.parent.status=='Open' } class="ui icon button pop checkmark" onclick="{ markTaskComplete }" data-content="Mark task complete">
     <i class="checkmark icon"></i>
   </div>
-  <div class="ui icon button pop remove" data-content="Cancel task">
+<!--   <div class="ui icon button pop remove" data-content="Cancel task">
     <i class="remove icon"></i>
-  </div>
+  </div> -->
   <div class="ui icon button pop trash" onclick={ deleteTask } data-content="Delete task">
     <i class="trash icon"></i>
   </div>

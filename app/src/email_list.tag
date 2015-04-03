@@ -8,7 +8,7 @@
 </email_list>
 
 <email_selector>
-  <div class={this.parent.parent.parent.globals.email_id == id ? 'item active' : 'item'}>
+  <div class={this.globals.email_id == id ? 'item active' : 'item'}>
     <div class='ui grid'>
       <div class='two wide column'>
         <i class='circular user icon large'></i>
