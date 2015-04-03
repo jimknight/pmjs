@@ -9,7 +9,7 @@
           <i class="user circular icon large" id="email-avatar"></i>
         </td>
         <td style="width:200px;">
-          {opts.globals.email.sent_from}
+          {this.globals.email.sent_from}
           <!-- {this.findEmail(this.globals.emails,'id',this.globals.email_id)} -->
           <br/>sent 5 minutes ago
         </td>
@@ -24,10 +24,10 @@
       </tr>
     </table>
     <div class="header">
-      {opts.globals.email.subject}
+      {this.globals.email.subject}
     </div>
     <div class="content">
-      {opts.globals.email.body_plain}
+      {this.globals.email.body_plain}
       <h4 class="ui horizontal header divider">
         <i class="tasks icon"></i>
         Tasks
@@ -37,7 +37,6 @@
       </div>
     </div>
   </div>
-
   <script>
     this.globals = this.parent.globals;
     this.on('mount', function() {
@@ -62,29 +61,50 @@
     <div class="ui button" onclick={ cancelBtn }>Cancel</div>
   </div>
   <script>
-    this.project_show = this.parent.parent;
+    this.globals = this.parent.globals;
+    addNewTask(task) {
+      this.globals.email.tasks.unshift(task);
+      riot.update();
+    };
     saveBtn() {
       $('#newtaskform')
-      .form({
-        name: {
-          identifier  : 'title',
-          rules: [
-            {
-              type   : 'empty',
-              prompt : 'Title is required'
-            }
-          ]
-        }
-      });
+        .form({
+          name: {
+            identifier: 'title',
+            rules: [{type: 'empty',prompt: 'Title is required'}]
+          }
+        });
       if ($('#newtaskform').form('validate form')) {
-        // do the ajax here and get the response to add
-        random_id = Math.floor((Math.random() * 1000) + 1);
-        new_task = { id: random_id, mode: "read", status: "Open", title: $("#newtaskform input").val() };
-        this.project_show.addNewTask(new_task);
-        $('#newtaskform').form('reset');
-        $('#newtaskform input').val("");
-        $('#newtaskform textarea').val("");
-        $('.dimmable').dimmer('hide');
+        postTaskUrl = "http://localhost:3000/tasks";
+        $.ajax({
+          url: postTaskUrl,
+          dataType: 'json',
+          type: 'POST',
+          data: {
+            task: {
+              title: $('#newtaskform input').val(),
+              content: $('#newtaskform textarea').val(),
+              status: 'Open',
+              email_id: this.globals.email_id
+            }
+          },
+          success: function(data) {
+            new_task = {
+              id: data.id,
+              mode: "read",
+              status: "Open",
+              title: data.title,
+              content: data.content };
+            this.addNewTask(new_task);
+            $('.dimmable').dimmer('hide');
+            $('#newtaskform').form('reset');
+            $('#newtaskform input').val("");
+            $('#newtaskform textarea').val("");
+          }.bind(this),
+          error: function(xhr, status, err) {
+            console.error(postTaskUrl, status, err.toString());
+          }.bind(this)
+        });
       } else {
         $('#newtaskform input').focus();
         return false;
@@ -106,6 +126,7 @@
 </email_tasks_list>
 
 <email_task>
+  <!-- Display -->
   <i class="circle thin icon red large"></i>
   <div class="actionbuttons">
     <email_task_action_buttons></email_task_action_buttons>
@@ -115,8 +136,9 @@
   </div>
   <div class="meta">Created 3 days ago</div>
   <div class="content">
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+    {content}
   </div>
+  <!-- Logic -->
   <script>
     this.globals = opts.data.parent.globals;
   </script>
