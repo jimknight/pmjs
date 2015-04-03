@@ -36,7 +36,7 @@ riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div c
           }
         });
       if ($('#newtaskform').form('validate form')) {
-        postTaskUrl = "http://localhost:3000/api/v1/api/v1/tasks";
+        postTaskUrl = "http://localhost:3000/api/v1/tasks";
         $.ajax({
           url: postTaskUrl,
           dataType: 'json',
@@ -113,7 +113,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
     }.bind(this);
     this.deleteTask = function() {
 
-      postTaskUrl = "http://localhost:3000/api/v1/api/v1/tasks/" + this.parent.id;
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id;
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -133,7 +133,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
       });
     }.bind(this);
     this.markTaskComplete = function() {
-      postTaskUrl = "http://localhost:3000/api/v1/api/v1/tasks/" + this.parent.id + "/completed";
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id + "/completed";
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -173,7 +173,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
     }.bind(this);
     this.loadEmailsFromServer = function() {
       $.ajax({
-        url: 'http://localhost:3000/api/v1/api/v1/projects/' + this.globals.project_id + '/emails.json',
+        url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
@@ -181,7 +181,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error('http://localhost:3000/api/v1/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
+          console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     }.bind(this);
@@ -215,7 +215,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
 riot.tag('projects_index', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <h1>Your Projects</h1> <project_selector each="{projects}"></project_selector> </div> </div>', function(opts) {
     this.projects = [];
     this.loadProjectsFromServer = function() {
-      getProjectsUrl='http://localhost:3000/api/v1/api/v1/projects.json';
+      getProjectsUrl='http://localhost:3000/api/v1/projects.json';
       $.ajax({
         url: getProjectsUrl,
         dataType: 'json',
