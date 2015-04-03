@@ -1,12 +1,28 @@
 var gulp        = require('gulp');
 var browserify  = require('browserify');
 var concat      = require('gulp-concat');
+var gutil       = require('gulp-util');
 var riot        = require('gulp-riot');
 var sass        = require('gulp-sass');
 var source      = require('vinyl-source-stream');
 var sourcemaps  = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
 var reload      = browserSync.reload;
+var rsync       = require('rsyncwrapper').rsync;
+
+// Deploy
+gulp.task('deploy', function() {
+  rsync({
+    ssh: true,
+    src: './app/',
+    dest: 'deployer@projectmailboxes.com:/home/deployer/apps/pmjs/',
+    recursive: true,
+    syncDest: true,
+    args: ['--verbose']
+  }, function(error, stdout, stderr, cmd) {
+      gutil.log(stdout);
+  });
+});
 
 // Convert scss to css
 gulp.task('scss', function() {

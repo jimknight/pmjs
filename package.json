@@ -47,8 +47,10 @@
     "gulp-react": "^3.0.1",
     "gulp-riot": "^0.2.12",
     "gulp-run": "^1.6.7",
+    "gulp-util": "^3.0.4",
     "react": "^0.13.1",
     "reactify": "^1.1.0",
+    "rsyncwrapper": "^0.4.2",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   },
