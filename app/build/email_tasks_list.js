@@ -40,9 +40,25 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
       });
     }.bind(this);
     this.markTaskComplete = function() {
-      task = this.findBy(this.globals.email.tasks,'id',this.parent.id)
-      task.status = 'Completed';
-      riot.update();
+      postTaskUrl = "http://localhost:3000/tasks/" + this.parent.id + "/completed";
+      $.ajax({
+        url: postTaskUrl,
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          task: {
+            status: 'Completed'
+          }
+        },
+        success: function(data) {
+          task = this.findBy(this.globals.email.tasks,'id',this.parent.id)
+          task.status = 'Completed';
+          riot.update();
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(postTaskUrl, status, err.toString());
+        }.bind(this)
+      });
     }.bind(this);
     this.on('mount', function() {
       var $node = $(this.root);
