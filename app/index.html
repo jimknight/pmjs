@@ -14,8 +14,8 @@
   </head>
 
   <body>
-    <projects_index></projects_index>
-    <project_show></project_show>
+    <app></app>
+    <script src="src/app.tag" type="riot/tag"></script>
     <script src="src/projects_index.tag" type="riot/tag"></script>
     <script src="src/project_show.tag" type="riot/tag"></script>
     <script src="src/displayed_email.tag" type="riot/tag"></script>
@@ -24,7 +24,8 @@
     <script src="src/navigation.tag" type="riot/tag"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/riot/2.0.12/riot+compiler.min.js"></script>
     <script>
-      riot.mount('projects_index');
+      riot.mount('app');
+      // riot.mount('projects_index');
       // riot.route.exec(function(projects, project_id, emails, email_id) {
       //   riot.mount('project_show', { project_id: project_id, email_id: email_id });
       // });
