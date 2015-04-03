@@ -48,7 +48,7 @@
     };
     deleteTask() {
       // delete the task from rails
-      postTaskUrl = "http://localhost:3000/tasks/" + this.parent.id;
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id;
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -68,7 +68,7 @@
       });
     }.bind(this);
     markTaskComplete() {
-      postTaskUrl = "http://localhost:3000/tasks/" + this.parent.id + "/completed";
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id + "/completed";
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',

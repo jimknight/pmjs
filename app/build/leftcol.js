@@ -3,14 +3,14 @@ riot.tag('leftcol', '<div class="ui divided items"> <div class="item"> <div clas
   this.loadEmailsFromServer = function() {
 
     $.ajax({
-      url: 'http://localhost:3000/projects/23/emails.json',
+      url: 'http://localhost:3000/api/v1/projects/23/emails.json',
       dataType: 'json',
       success: function(data) {
         this.update({ emails: data });
         console.log(data);
       }.bind(this),
       error: function(xhr, status, err) {
-        console.error('http://localhost:3000/projects/23/emails.json', status, err.toString());
+        console.error('http://localhost:3000/api/v1/projects/23/emails.json', status, err.toString());
       }.bind(this)
     });
   }.bind(this);
@@ -18,5 +18,5 @@ riot.tag('leftcol', '<div class="ui divided items"> <div class="item"> <div clas
   this.emails = [];
   this.loadEmailsFromServer();
 
-  
+
 });

@@ -9,7 +9,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
     }.bind(this);
     this.loadEmailsFromServer = function() {
       $.ajax({
-        url: 'http://localhost:3000/projects/' + this.globals.project_id + '/emails.json',
+        url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
@@ -17,7 +17,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error('http://localhost:3000/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
+          console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     }.bind(this);
@@ -46,5 +46,5 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
       riot.update();
     }.bind(this));
     this.loadEmailsFromServer();
-  
+
 });

@@ -93,7 +93,7 @@
           }
         });
       if ($('#newtaskform').form('validate form')) {
-        postTaskUrl = "http://localhost:3000/tasks";
+        postTaskUrl = "http://localhost:3000/api/v1/tasks";
         $.ajax({
           url: postTaskUrl,
           dataType: 'json',
@@ -221,7 +221,7 @@
     };
     deleteTask() {
       // delete the task from rails
-      postTaskUrl = "http://localhost:3000/tasks/" + this.parent.id;
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id;
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -241,7 +241,7 @@
       });
     }.bind(this);
     markTaskComplete() {
-      postTaskUrl = "http://localhost:3000/tasks/" + this.parent.id + "/completed";
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id + "/completed";
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -311,7 +311,7 @@
     };
     loadEmailsFromServer() {
       $.ajax({
-        url: 'http://localhost:3000/projects/' + this.globals.project_id + '/emails.json',
+        url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
@@ -319,7 +319,7 @@
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error('http://localhost:3000/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
+          console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     };
@@ -364,7 +364,7 @@
   <script>
     this.projects = [];
     loadProjectsFromServer() {
-      getProjectsUrl='http://localhost:3000/projects.json';
+      getProjectsUrl='http://localhost:3000/api/v1/projects.json';
       $.ajax({
         url: getProjectsUrl,
         dataType: 'json',

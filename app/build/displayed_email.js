@@ -4,7 +4,7 @@ riot.tag('displayed_email', '<div class="ui message dimmable"> <div class="ui in
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
-  
+
 });
 
 riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div class="ui corner labeled input field"> <input placeholder="Task title" type="text" name="title" autofocus> <div class="ui corner label"> <i class="asterisk icon red"></i> </div> </div> <div class="field"> <textarea placeholder="Task details" name="content"></textarea> </div> <div class="ui primary submit button" onclick="{ saveBtn }">Save</div> <div class="ui button" onclick="{ cancelBtn }">Cancel</div> </div>', function(opts) {
@@ -22,7 +22,7 @@ riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div c
           }
         });
       if ($('#newtaskform').form('validate form')) {
-        postTaskUrl = "http://localhost:3000/tasks";
+        postTaskUrl = "http://localhost:3000/api/v1/tasks";
         $.ajax({
           url: postTaskUrl,
           dataType: 'json',
@@ -60,5 +60,5 @@ riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div c
     this.cancelBtn = function() {
       $('.dimmable').dimmer('hide');
     }.bind(this);
-  
+
 });
