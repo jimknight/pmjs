@@ -93,7 +93,7 @@
           }
         });
       if ($('#newtaskform').form('validate form')) {
-        postTaskUrl = "/api/v1/tasks";
+        postTaskUrl = "http://localhost:3000/api/v1/tasks";
         $.ajax({
           url: postTaskUrl,
           dataType: 'json',
@@ -150,7 +150,7 @@
       </div>
       <div class='fourteen wide column'>
         <div class='content'>
-          <a class='header' href={'#projects/23/emails/' + id}>{subject}</a>
+          <a class='header' href={'#projects/' + this.globals.project_id +'/emails/' + id}>{subject}</a>
           <div class='meta'>
             <span class='cinema'>from {sent_from} 5 minutes ago</span>
           </div>
@@ -221,7 +221,7 @@
     };
     deleteTask() {
       // delete the task from rails
-      postTaskUrl = "/api/v1/tasks/" + this.parent.id;
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id;
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -241,7 +241,7 @@
       });
     }.bind(this);
     markTaskComplete() {
-      postTaskUrl = "/api/v1/tasks/" + this.parent.id + "/completed";
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id + "/completed";
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -311,7 +311,7 @@
     };
     loadEmailsFromServer() {
       $.ajax({
-        url: '/api/v1/projects/' + this.globals.project_id + '/emails.json',
+        url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
@@ -319,7 +319,7 @@
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error('/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
+          console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     };

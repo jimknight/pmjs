@@ -36,7 +36,7 @@ riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div c
           }
         });
       if ($('#newtaskform').form('validate form')) {
-        postTaskUrl = "/api/v1/tasks";
+        postTaskUrl = "http://localhost:3000/api/v1/tasks";
         $.ajax({
           url: postTaskUrl,
           dataType: 'json',
@@ -81,7 +81,7 @@ riot.tag('email_list', '<div class="ui divided items" id="emaillist"> <email_sel
   
 });
 
-riot.tag('email_selector', '<div class="{this.globals.email_id == id ? \'item active\' : \'item\'}"> <div class="ui grid"> <div class="two wide column"> <i class="circular user icon large"></i> </div> <div class="fourteen wide column"> <div class="content"> <a class="header" href="{\'#projects/23/emails/\' + id}">{subject}</a> <div class="meta"> <span class="cinema">from {sent_from} 5 minutes ago</span> </div> <div class="description"> <p>{bodyText(body_plain)}</p> </div> </div> </div> </div> </div>', function(opts) {
+riot.tag('email_selector', '<div class="{this.globals.email_id == id ? \'item active\' : \'item\'}"> <div class="ui grid"> <div class="two wide column"> <i class="circular user icon large"></i> </div> <div class="fourteen wide column"> <div class="content"> <a class="header" href="{\'#projects/\' + this.globals.project_id +\'/emails/\' + id}">{subject}</a> <div class="meta"> <span class="cinema">from {sent_from} 5 minutes ago</span> </div> <div class="description"> <p>{bodyText(body_plain)}</p> </div> </div> </div> </div> </div>', function(opts) {
     this.globals = opts.data.parent.globals;
     this.bodyText = function(longString) {
       return _.trunc(longString, {
@@ -113,7 +113,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
     }.bind(this);
     this.deleteTask = function() {
 
-      postTaskUrl = "/api/v1/tasks/" + this.parent.id;
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id;
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -133,7 +133,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
       });
     }.bind(this);
     this.markTaskComplete = function() {
-      postTaskUrl = "/api/v1/tasks/" + this.parent.id + "/completed";
+      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id + "/completed";
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -173,7 +173,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
     }.bind(this);
     this.loadEmailsFromServer = function() {
       $.ajax({
-        url: '/api/v1/projects/' + this.globals.project_id + '/emails.json',
+        url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
@@ -181,7 +181,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error('/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
+          console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     }.bind(this);
