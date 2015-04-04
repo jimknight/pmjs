@@ -82,6 +82,7 @@ gulp.task('server', function() {
     port: 8080
   });
   gulp.watch("app/assets/scss/*.scss", ['scss','concatcss']);
+  gulp.watch("app/styles.css").on('change', reload);
   gulp.watch("app/*.html").on('change', reload);
   gulp.watch("app/src/*.tag").on('change', reload);
 });
