@@ -28,7 +28,11 @@
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
-          this.globals.email = data[0];
+          if (opts.email_id) {
+            this.globals.email = this.findBy(data,'id',opts.email_id);
+          } else {
+            this.globals.email = data[0];
+          };
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
@@ -52,6 +56,11 @@
       project_id: opts.project_id,
       email: {}
     };
+    // console.log(opts);
+    // console.log(this.globals);
+    // if (opts.email_id) {
+    //   this.globals.email = this.findBy(this.globals.emails,'id',opts.email_id);
+    // }
     riot.route(function(projects, project_id, emails, email_id) {
       this.globals.email_id = email_id;
       this.globals.project_id = project_id;
