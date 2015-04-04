@@ -15,7 +15,7 @@
       </div>
       <div class='fourteen wide column'>
         <div class='content'>
-          <a class='header' href={'#projects/23/emails/' + id}>{subject}</a>
+          <a class='header' href={'#projects/' + this.globals.project_id +'/emails/' + id}>{subject}</a>
           <div class='meta'>
             <span class='cinema'>from {sent_from} 5 minutes ago</span>
           </div>
