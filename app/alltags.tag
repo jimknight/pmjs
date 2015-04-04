@@ -47,15 +47,12 @@
     <div class="content">
       {this.globals.email.body_plain}
     </div>
-    <br>
-    <div class="row">
-      <h4 class="ui horizontal header divider">
-        <i class="tasks icon"></i>
-        Tasks
-      </h4>
-      <div class="ui divided items" id="emailtasks">
-        <email_tasks_list></email_tasks_list>
-      </div>
+    <h4 class="ui horizontal header divider">
+      <i class="tasks icon"></i>
+      Tasks
+    </h4>
+    <div class="ui divided items" id="emailtasks">
+      <email_tasks_list></email_tasks_list>
     </div>
   </div>
   <script>
@@ -115,7 +112,8 @@
               mode: "read",
               status: "Open",
               title: data.title,
-              content: data.content };
+              content: data.content,
+              created_at_pretty: data.created_at_pretty};
             this.addNewTask(new_task);
             $('.dimmable').dimmer('hide');
             $('#newtaskform').form('reset');
@@ -192,7 +190,7 @@
   <div class="header">
     {title} {status}
   </div>
-  <div class="meta">Created 3 days ago</div>
+  <div class="meta">created {created_at_pretty}</div>
   <div class="content">
     {content}
   </div>

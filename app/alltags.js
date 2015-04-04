@@ -12,7 +12,7 @@ riot.tag('app', '<div id="container"> <a href="/#projects">Projects</a> </div>',
     });
   
 });
-riot.tag('displayed_email', '<div class="ui message dimmable" id="displayedemail"> <div class="ui inverted dimmer"> <new_task_form globals="{globals}"></new_task_form> </div> <table style="margin-bottom:10px;width:100%;"> <tr> <td style="padding-right:7px;width:30px"> <i class="user circular icon large" id="email-avatar"></i> </td> <td style="width:200px;"> {this.globals.email.sent_from}  <br>sent 5 minutes ago </td> <td style="text-align:right;"> <div class="pop ui icon button" data-content="Create a task from this email" onclick="$(\'.dimmable\').dimmer(\'show\');return false;"> <i class="plus icon"></i> </div> <div class="pop ui icon button trash" data-content="Delete this email"> <i class="trash icon"></i> </div> </td> </tr> </table> <div class="header"> {this.globals.email.subject} </div> <div class="content"> {this.globals.email.body_plain} </div> <br> <div class="row"> <h4 class="ui horizontal header divider"> <i class="tasks icon"></i> Tasks </h4> <div class="ui divided items" id="emailtasks"> <email_tasks_list></email_tasks_list> </div> </div> </div>', function(opts) {
+riot.tag('displayed_email', '<div class="ui message dimmable" id="displayedemail"> <div class="ui inverted dimmer"> <new_task_form globals="{globals}"></new_task_form> </div> <table style="margin-bottom:10px;width:100%;"> <tr> <td style="padding-right:7px;width:30px"> <i class="user circular icon large" id="email-avatar"></i> </td> <td style="width:200px;"> {this.globals.email.sent_from}  <br>sent 5 minutes ago </td> <td style="text-align:right;"> <div class="pop ui icon button" data-content="Create a task from this email" onclick="$(\'.dimmable\').dimmer(\'show\');return false;"> <i class="plus icon"></i> </div> <div class="pop ui icon button trash" data-content="Delete this email"> <i class="trash icon"></i> </div> </td> </tr> </table> <div class="header"> {this.globals.email.subject} </div> <div class="content"> {this.globals.email.body_plain} </div> <h4 class="ui horizontal header divider"> <i class="tasks icon"></i> Tasks </h4> <div class="ui divided items" id="emailtasks"> <email_tasks_list></email_tasks_list> </div> </div>', function(opts) {
     this.globals = this.parent.globals;
     this.on('mount', function() {
       var $node = $(this.root);
@@ -55,7 +55,8 @@ riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div c
               mode: "read",
               status: "Open",
               title: data.title,
-              content: data.content };
+              content: data.content,
+              created_at_pretty: data.created_at_pretty};
             this.addNewTask(new_task);
             $('.dimmable').dimmer('hide');
             $('#newtaskform').form('reset');
@@ -96,7 +97,7 @@ riot.tag('email_tasks_list', '<div class="ui item"> <email_task each="{this.glob
   
 });
 
-riot.tag('email_task', ' <i class="circle thin icon red large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} {status} </div> <div class="meta">Created 3 days ago</div> <div class="content"> {content} </div> ', function(opts) {
+riot.tag('email_task', ' <i class="circle thin icon red large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} {status} </div> <div class="meta">created {created_at_pretty}</div> <div class="content"> {content} </div> ', function(opts) {
     this.globals = opts.data.parent.globals;
   
 });

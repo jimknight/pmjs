@@ -94,7 +94,8 @@
               mode: "read",
               status: "Open",
               title: data.title,
-              content: data.content };
+              content: data.content,
+              created_at_pretty: data.created_at_pretty};
             this.addNewTask(new_task);
             $('.dimmable').dimmer('hide');
             $('#newtaskform').form('reset');

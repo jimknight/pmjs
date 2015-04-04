@@ -16,7 +16,7 @@
   <div class="header">
     {title} {status}
   </div>
-  <div class="meta">Created 3 days ago</div>
+  <div class="meta">created {created_at_pretty}</div>
   <div class="content">
     {content}
   </div>
