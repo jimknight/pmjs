@@ -11,7 +11,7 @@ var reload      = browserSync.reload;
 var rsync       = require('rsyncwrapper').rsync;
 
 // Deploy
-gulp.task('deploy', function() {
+gulp.task('deploy', ['compiletag'], function() {
   rsync({
     ssh: true,
     src: './app/',
