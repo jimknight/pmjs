@@ -11,7 +11,7 @@
   <script>
     this.projects = [];
     loadProjectsFromServer() {
-      getProjectsUrl='http://localhost:3000/api/v1/projects.json';
+      getProjectsUrl='/api/v1/projects.json';
       $.ajax({
         url: getProjectsUrl,
         dataType: 'json',

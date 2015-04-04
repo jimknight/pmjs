@@ -10,7 +10,7 @@ riot.tag('app', '<div id="container"> <a href="/#projects">Projects</a> </div>',
         riot.mount('project_show',{project_id: project_id});
       }
     });
-
+  
 });
 riot.tag('displayed_email', '<div class="ui message dimmable"> <div class="ui inverted dimmer"> <new_task_form globals="{globals}"></new_task_form> </div> <table style="margin-bottom:10px;width:100%;"> <tr> <td style="padding-right:7px;width:30px"> <i class="user circular icon large" id="email-avatar"></i> </td> <td style="width:200px;"> {this.globals.email.sent_from}  <br>sent 5 minutes ago </td> <td style="text-align:right;"> <div class="pop ui icon button" data-content="Create a task from this email" onclick="$(\'.dimmable\').dimmer(\'show\');return false;"> <i class="plus icon"></i> </div> <div class="pop ui icon button trash" data-content="Delete this email"> <i class="trash icon"></i> </div> </td> </tr> </table> <div class="header"> {this.globals.email.subject} </div> <div class="content"> {this.globals.email.body_plain} <h4 class="ui horizontal header divider"> <i class="tasks icon"></i> Tasks </h4> <div class="ui divided items" id="emailtasks"> <email_tasks_list></email_tasks_list> </div> </div> </div>', function(opts) {
     this.globals = this.parent.globals;
@@ -18,7 +18,7 @@ riot.tag('displayed_email', '<div class="ui message dimmable"> <div class="ui in
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
-
+  
 });
 
 riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div class="ui corner labeled input field"> <input placeholder="Task title" type="text" name="title" autofocus> <div class="ui corner label"> <i class="asterisk icon red"></i> </div> </div> <div class="field"> <textarea placeholder="Task details" name="content"></textarea> </div> <div class="ui primary submit button" onclick="{ saveBtn }">Save</div> <div class="ui button" onclick="{ cancelBtn }">Cancel</div> </div>', function(opts) {
@@ -36,7 +36,7 @@ riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div c
           }
         });
       if ($('#newtaskform').form('validate form')) {
-        postTaskUrl = "http://localhost:3000/api/v1/tasks";
+        postTaskUrl = "/api/v1/tasks";
         $.ajax({
           url: postTaskUrl,
           dataType: 'json',
@@ -74,11 +74,11 @@ riot.tag('new_task_form', '<div class="ui form segment" id="newtaskform"> <div c
     this.cancelBtn = function() {
       $('.dimmable').dimmer('hide');
     }.bind(this);
-
+  
 });
 riot.tag('email_list', '<div class="ui divided items" id="emaillist"> <email_selector each="{this.globals.emails}" data="{ this }"></email_selector> </div>', function(opts) {
     this.globals = this.parent.globals;
-
+  
 });
 
 riot.tag('email_selector', '<div class="{this.globals.email_id == id ? \'item active\' : \'item\'}"> <div class="ui grid"> <div class="two wide column"> <i class="circular user icon large"></i> </div> <div class="fourteen wide column"> <div class="content"> <a class="header" href="{\'#projects/23/emails/\' + id}">{subject}</a> <div class="meta"> <span class="cinema">from {sent_from} 5 minutes ago</span> </div> <div class="description"> <p>{bodyText(body_plain)}</p> </div> </div> </div> </div> </div>', function(opts) {
@@ -89,16 +89,16 @@ riot.tag('email_selector', '<div class="{this.globals.email_id == id ? \'item ac
         'separator': ' '
       });
     }.bind(this);
-
+  
 });
 riot.tag('email_tasks_list', '<div class="ui item"> <email_task each="{this.globals.email.tasks}" data="{ this }"></email_task> </div>', function(opts) {
     this.globals = this.parent.globals;
-
+  
 });
 
 riot.tag('email_task', ' <i class="circle thin icon red large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} {status} </div> <div class="meta">Created 3 days ago</div> <div class="content"> {content} </div> ', function(opts) {
     this.globals = opts.data.parent.globals;
-
+  
 });
 
 riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }" class="ui icon button pop checkmark" onclick="{ markTaskComplete }" data-content="Mark task complete"> <i class="checkmark icon"></i> </div>  <div class="ui icon button pop trash" onclick="{ deleteTask }" data-content="Delete task"> <i class="trash icon"></i> </div>', function(opts) {
@@ -113,7 +113,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
     }.bind(this);
     this.deleteTask = function() {
 
-      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id;
+      postTaskUrl = "/api/v1/tasks/" + this.parent.id;
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -133,7 +133,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
       });
     }.bind(this);
     this.markTaskComplete = function() {
-      postTaskUrl = "http://localhost:3000/api/v1/tasks/" + this.parent.id + "/completed";
+      postTaskUrl = "/api/v1/tasks/" + this.parent.id + "/completed";
       $.ajax({
         url: postTaskUrl,
         dataType: 'json',
@@ -157,7 +157,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
-
+  
 });
 riot.tag('navigation', '<div class="ui menu inverted"> <a class="active item"> <i class="home icon"></i> Home </a> <a class="item" href="#projects"> <i class="list layout icon"></i> Projects </a> <div class="right menu"> <div class="item"> <div class="ui transparent icon input"> <input type="text" placeholder="Search..."> <i class="search link icon"></i> </div> </div> </div> </div>', function(opts) {
 
@@ -173,7 +173,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
     }.bind(this);
     this.loadEmailsFromServer = function() {
       $.ajax({
-        url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
+        url: '/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
@@ -181,7 +181,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
+          console.error('/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     }.bind(this);
@@ -210,7 +210,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
       riot.update();
     }.bind(this));
     this.loadEmailsFromServer();
-
+  
 });
 riot.tag('projects_index', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <h1>Your Projects</h1> <project_selector each="{projects}"></project_selector> </div> </div>', function(opts) {
     this.projects = [];
@@ -229,7 +229,7 @@ riot.tag('projects_index', '<div class="ui page grid"> <div class="row"> <naviga
       });
     }.bind(this);
     this.loadProjectsFromServer();
-
+  
 });
 
 riot.tag('project_selector', '<div class="ui divided items"> <div class="ui grid"> <div class="one wide column"> <i class="circular user icon large"></i> </div> <div class="fifteen wide column"> <div class="content"> <a class="header" href="{\'#projects/\' + id}">{title}</a> <div class="meta"> <span class="cinema">created 5 minutes ago</span> </div> <div class="description"> <p> {shorten(description)}<br> <a href=mailto:{email}>{email}</a> </p> </div> </div> </div> </div> </div>', function(opts) {
@@ -239,33 +239,5 @@ riot.tag('project_selector', '<div class="ui divided items"> <div class="ui grid
         'separator': ' '
       });
     }.bind(this);
-
-});
-riot.tag('riot-tabs', '<h2>Tabs</h2> <ul> <li class="{ tabItem: true }">Tab 1</li> <li class="{ tabItem: true }">Tab 2</li> <li class="{ tabItem: true }">Tab 3</li> </ul>', function(opts) {
-
-});
-riot.tag('todo', '<h3>{ opts.title }</h3> <ul> <li each="{ items.filter(filter) }"> <label class="{ completed: done }"> <input type="checkbox" __checked="{ done }" onclick="{ parent.toggle }"> { title } </label> </li> </ul> <form onsubmit="{ add }"> <input name="input" onkeyup="{ edit }"> <button __disabled="{ !text }">Add #{ items.filter(filter).length + 1 }</button> </form> ', function(opts) {
-    this.items = opts.items
-
-    this.edit = function(e) {
-      this.text = e.target.value
-    }.bind(this);
-
-    this.add = function(e) {
-      if (this.text) {
-        this.items.push({ title: this.text })
-        this.text = this.input.value = ''
-      }
-    }.bind(this);
-
-    this.filter = function(item) {
-      return !item.hidden
-    }.bind(this);
-
-    this.toggle = function(e) {
-      var item = e.item
-      item.done = !item.done
-      return true
-    }.bind(this);
-
+  
 });
