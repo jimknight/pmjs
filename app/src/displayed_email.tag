@@ -75,7 +75,7 @@
           }
         });
       if ($('#newtaskform').form('validate form')) {
-        postTaskUrl = "http://localhost:3000/api/v1/tasks";
+        postTaskUrl = "/api/v1/tasks";
         $.ajax({
           url: postTaskUrl,
           dataType: 'json',

@@ -24,7 +24,7 @@
     };
     loadEmailsFromServer() {
       $.ajax({
-        url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
+        url: '/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
@@ -32,7 +32,7 @@
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
+          console.error('/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     };
