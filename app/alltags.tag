@@ -17,7 +17,7 @@
   </script>
 </app>
 <displayed_email>
-  <div class="ui message dimmable">
+  <div class="ui message dimmable" id="displayedemail">
     <div class="ui inverted dimmer">
       <new_task_form globals={globals}></new_task_form>
     </div>
@@ -46,6 +46,9 @@
     </div>
     <div class="content">
       {this.globals.email.body_plain}
+    </div>
+    <br>
+    <div class="row">
       <h4 class="ui horizontal header divider">
         <i class="tasks icon"></i>
         Tasks
@@ -227,7 +230,8 @@
         dataType: 'json',
         type: 'POST',
         data: {
-          "_method":"delete"
+          '_method':'delete',
+          'id':this.parent.id
         },
         success: function(data) {
           task = this.findBy(this.globals.email.tasks,'id',this.parent.id);

@@ -54,7 +54,8 @@
         dataType: 'json',
         type: 'POST',
         data: {
-          "_method":"delete"
+          '_method':'delete',
+          'id':this.parent.id
         },
         success: function(data) {
           task = this.findBy(this.globals.email.tasks,'id',this.parent.id);

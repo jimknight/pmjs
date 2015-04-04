@@ -1,5 +1,5 @@
 <displayed_email>
-  <div class="ui message dimmable">
+  <div class="ui message dimmable" id="displayedemail">
     <div class="ui inverted dimmer">
       <new_task_form globals={globals}></new_task_form>
     </div>
@@ -28,13 +28,13 @@
     </div>
     <div class="content">
       {this.globals.email.body_plain}
-      <h4 class="ui horizontal header divider">
-        <i class="tasks icon"></i>
-        Tasks
-      </h4>
-      <div class="ui divided items" id="emailtasks">
-        <email_tasks_list></email_tasks_list>
-      </div>
+    </div>
+    <h4 class="ui horizontal header divider">
+      <i class="tasks icon"></i>
+      Tasks
+    </h4>
+    <div class="ui divided items" id="emailtasks">
+      <email_tasks_list></email_tasks_list>
     </div>
   </div>
   <script>

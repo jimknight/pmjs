@@ -6,6 +6,10 @@ body {
   white-space: pre-line;
 }
 
+h4.divider {
+  margin-top:1em;
+}
+
 #emaillist {
   .active {
     background:#e0e0e0;
@@ -20,6 +24,10 @@ body {
   .actionbuttons {
     float:right;
   }
+}
+
+#displayedemail {
+  min-height:350px;
 }
 
 .button.icon {
