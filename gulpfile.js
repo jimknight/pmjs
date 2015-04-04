@@ -34,14 +34,12 @@ gulp.task('localreplace', function(){
 // Convert scss to css
 gulp.task('scss', function() {
   gulp.src('./app/assets/scss/*.scss')
-    .pipe(sourcemaps.init())
     .pipe(sass())
-    .pipe(sourcemaps.write())
     .pipe(gulp.dest('./app/assets/css/'))
 });
 
 // Compact all the css to one file
-gulp.task('concatcss', ['scss'], function() {
+gulp.task('concatcss', function() {
   return gulp.src('./app/assets/css/*.css')
     .pipe(concat('styles.css'))
     .pipe(gulp.dest('./app/'));
@@ -81,7 +79,8 @@ gulp.task('server', function() {
     server: './app',
     port: 8080
   });
-  gulp.watch("./app/assets/scss/*.scss", ['scss','concatcss']);
+  gulp.watch("./app/assets/scss/*.scss", ['scss']);
+  gulp.watch("./app/assets/css/*.css", ['concatcss']);
   gulp.watch("./app/styles.css").on('change', reload);
   gulp.watch("./app/*.html").on('change', reload);
   gulp.watch("./app/src/*.tag", ['concattag','compiletag']);
