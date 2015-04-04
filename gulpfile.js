@@ -5,13 +5,14 @@ var gutil       = require('gulp-util');
 var riot        = require('gulp-riot');
 var sass        = require('gulp-sass');
 var source      = require('vinyl-source-stream');
+var replace     = require('gulp-replace');
 var sourcemaps  = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
 var reload      = browserSync.reload;
 var rsync       = require('rsyncwrapper').rsync;
 
 // Deploy
-gulp.task('deploy', ['compiletag'], function() {
+gulp.task('deploy', ['compiletag','localreplace'], function() {
   rsync({
     ssh: true,
     src: './app/',
@@ -22,6 +23,12 @@ gulp.task('deploy', ['compiletag'], function() {
   }, function(error, stdout, stderr, cmd) {
       gutil.log(stdout);
   });
+});
+
+gulp.task('localreplace', function(){
+  gulp.src('./app/alltags.js')
+    .pipe(replace(/http:\/\/localhost:3000/g, ''))
+    .pipe(gulp.dest('./app/'));
 });
 
 // Convert scss to css
