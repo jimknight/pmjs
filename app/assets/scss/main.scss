@@ -10,6 +10,13 @@ h4.divider {
   margin-top:1em;
 }
 
+.divided.items {
+  .item {
+    padding:10px;
+    border-bottom:1px solid #e2e2e2;
+  }
+}
+
 #emaillist {
   .active {
     background:#e0e0e0;
