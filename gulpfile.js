@@ -66,14 +66,6 @@ gulp.task('js', function () {
   .pipe(gulp.dest('app'))
 });
 
-// Build out the requires
-gulp.task('build', function() {
-  browserify('./app/app.js')
-  .bundle()
-  .pipe(source('bundle.js'))
-  .pipe(gulp.dest('./app/'));
-});
-
 gulp.task('server', function() {
   browserSync({
     server: './app',
