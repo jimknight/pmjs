@@ -92,12 +92,12 @@ riot.tag('email_selector', '<div class="{this.globals.email_id == id ? \'item ac
     }.bind(this);
   
 });
-riot.tag('email_tasks_list', '<div class="ui item"> <email_task each="{this.globals.email.tasks}" data="{ this }"></email_task> </div>', function(opts) {
+riot.tag('email_tasks_list', '<email_task each="{this.globals.email.tasks}" data="{ this }"></email_task>', function(opts) {
     this.globals = this.parent.globals;
   
 });
 
-riot.tag('email_task', ' <i class="circle thin icon red large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} {status} </div> <div class="meta">created {created_at_pretty}</div> <div class="content"> {content} </div> ', function(opts) {
+riot.tag('email_task', ' <div class="ui item"> <i class="circle thin icon red large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} {status} </div> <div class="meta">created {created_at_pretty}</div> <div class="content"> {content} </div> </div> ', function(opts) {
     this.globals = opts.data.parent.globals;
   
 });

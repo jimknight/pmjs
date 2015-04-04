@@ -1,7 +1,5 @@
 <email_tasks_list>
-  <div class="ui item">
-    <email_task each={this.globals.email.tasks} data={ this }></email_task>
-  </div>
+  <email_task each={this.globals.email.tasks} data={ this }></email_task>
   <script>
     this.globals = this.parent.globals;
   </script>
@@ -9,16 +7,18 @@
 
 <email_task>
   <!-- Display -->
-  <i class="circle thin icon red large"></i>
-  <div class="actionbuttons">
-    <email_task_action_buttons></email_task_action_buttons>
-  </div>
-  <div class="header">
-    {title} {status}
-  </div>
-  <div class="meta">created {created_at_pretty}</div>
-  <div class="content">
-    {content}
+  <div class="ui item">
+    <i class="circle thin icon red large"></i>
+    <div class="actionbuttons">
+      <email_task_action_buttons></email_task_action_buttons>
+    </div>
+    <div class="header">
+      {title} {status}
+    </div>
+    <div class="meta">created {created_at_pretty}</div>
+    <div class="content">
+      {content}
+    </div>
   </div>
   <!-- Logic -->
   <script>
