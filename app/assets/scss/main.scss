@@ -2,6 +2,10 @@ body {
   background: white;
 }
 
+.content {
+  white-space: pre-line;
+}
+
 #emaillist {
   .active {
     background:#e0e0e0;
