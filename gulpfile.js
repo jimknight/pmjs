@@ -81,10 +81,11 @@ gulp.task('server', function() {
     server: './app',
     port: 8080
   });
-  gulp.watch("app/assets/scss/*.scss", ['scss','concatcss']);
-  gulp.watch("app/styles.css").on('change', reload);
-  gulp.watch("app/*.html").on('change', reload);
-  gulp.watch("app/src/*.tag").on('change', reload);
+  gulp.watch("./app/assets/scss/*.scss", ['scss','concatcss']);
+  gulp.watch("./app/styles.css").on('change', reload);
+  gulp.watch("./app/*.html").on('change', reload);
+  gulp.watch("./app/src/*.tag", ['concattag','compiletag']);
+  gulp.watch("./app/src/*.tag").on('change', reload);
 });
 
 gulp.task('default', ['scss','concatcss','compiletag', 'js','server']);
