@@ -41,7 +41,7 @@ gulp.task('scss', function() {
 });
 
 // Compact all the css to one file
-gulp.task('concatcss', function() {
+gulp.task('concatcss', ['scss'], function() {
   return gulp.src('./app/assets/css/*.css')
     .pipe(concat('styles.css'))
     .pipe(gulp.dest('./app/'));
@@ -81,6 +81,7 @@ gulp.task('server', function() {
     server: './app',
     port: 8080
   });
+  gulp.watch("app/assets/scss/*.scss", ['scss','concatcss']);
   gulp.watch("app/*.html").on('change', reload);
   gulp.watch("app/src/*.tag").on('change', reload);
 });
