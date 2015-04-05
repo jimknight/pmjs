@@ -32,6 +32,7 @@
             this.globals.email = this.findBy(data,'id',opts.email_id);
           } else {
             this.globals.email = data[0];
+            this.globals.email_id = data[0].id;
           };
           this.update();
         }.bind(this),
