@@ -45,7 +45,7 @@
           email:    $('.ui.form input[name=email]').val(),
           password: $('.ui.form input[name=password]').val()
         })
-        .then(function(user){
+        .then(function(){
           riot.route('projects');
         })
         .fail(function(resp){
