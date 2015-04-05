@@ -11,8 +11,7 @@
           </td>
           <td style="width:200px;">
             {this.globals.email.sent_from}
-            <!-- {this.findEmail(this.globals.emails,'id',this.globals.email_id)} -->
-            <br/>sent 5 minutes ago
+            <br/>{this.globals.email.created_at_pretty}
           </td>
           <td style="text-align:right;">
             <div class="pop ui icon button" data-content="Create a task from this email" onclick="$('.dimmable').dimmer('show');return false;">
