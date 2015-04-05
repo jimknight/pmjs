@@ -4,8 +4,14 @@
       <navigation></navigation>
     </div>
     <div class='row'>
-      <h1>Your Projects</h1>
-      <project_selector each={projects}></project_selector>
+      <div class="eight wide column">
+        <h1>Your Projects</h1>
+        <project_selector each={projects}></project_selector>
+      </div>
+      <div class="eight wide column">
+        <h1>What's happening?</h1>
+        <feed></feed>
+      </div>
     </div>
   </div>
   <script>
@@ -36,10 +42,10 @@
 <project_selector>
   <div class='ui divided items'>
     <div class='ui grid'>
-      <div class='one wide column'>
+      <div class='two wide column'>
         <i class='circular user icon large'></i>
       </div>
-      <div class='fifteen wide column'>
+      <div class='fourteen wide column'>
         <div class='content'>
           <a class='header' href={'#projects/' + id}>{title}</a>
           <div class='meta'>
