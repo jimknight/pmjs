@@ -1,18 +1,32 @@
-riot.tag('app', '<div id="container"> <a href="/#projects">Projects</a> </div>', function(opts) {
+riot.tag('app', '', function(opts) {
     riot.route( function(projects,project_id,emails,email_id) {
       if (emails) {return false;};
       if (projects== 'projects') {
-        $('#container').html('<projects_index></projects_index>');
+        $('app').html('<projects_index></projects_index>');
         riot.mount('projects_index');
       };
       if (project_id) {
-        $('#container').html('<project_show></project_show>');
+        $('app').html('<project_show></project_show>');
         riot.mount('project_show',{project_id: project_id});
       }
     });
+    riot.route.exec( function(projects,project_id,emails,email_id) {
+      if (projects== 'projects') {
+        $('app').html('<projects_index></projects_index>');
+        riot.mount('projects_index');
+      };
+      if (project_id) {
+        $('app').html('<project_show></project_show>');
+        riot.mount('project_show',{project_id: project_id});
+      };
+      if (emails) {
+        $('app').html('<project_show></project_show>');
+        riot.mount('project_show',{email_id: email_id,project_id: project_id});
+      };
+    });
   
 });
-riot.tag('displayed_email', '<div class="ui message dimmable" id="displayedemail"> <div class="ui inverted dimmer"> <new_task_form globals="{globals}"></new_task_form> </div> <table style="margin-bottom:10px;width:100%;"> <tr> <td style="padding-right:7px;width:30px"> <i class="user circular icon large" id="email-avatar"></i> </td> <td style="width:200px;"> {this.globals.email.sent_from}  <br>sent 5 minutes ago </td> <td style="text-align:right;"> <div class="pop ui icon button" data-content="Create a task from this email" onclick="$(\'.dimmable\').dimmer(\'show\');return false;"> <i class="plus icon"></i> </div> <div class="pop ui icon button trash" data-content="Delete this email"> <i class="trash icon"></i> </div> </td> </tr> </table> <div class="header"> {this.globals.email.subject} </div> <div class="content"> {this.globals.email.body_plain} </div> <h4 class="ui horizontal header divider"> <i class="tasks icon"></i> Tasks </h4> <div class="ui divided items" id="emailtasks"> <email_tasks_list></email_tasks_list> </div> </div>', function(opts) {
+riot.tag('displayed_email', '<div class="ui message dimmable" id="displayedemail"> <div class="ui inverted dimmer"> <new_task_form globals="{globals}"></new_task_form> </div> <div id="displayedemaildetails"> <table style="margin-bottom:10px;width:100%;"> <tr> <td style="padding-right:7px;width:30px"> <i class="user circular icon large" id="email-avatar"></i> </td> <td style="width:200px;"> {this.globals.email.sent_from}  <br>sent 5 minutes ago </td> <td style="text-align:right;"> <div class="pop ui icon button" data-content="Create a task from this email" onclick="$(\'.dimmable\').dimmer(\'show\');return false;"> <i class="plus icon"></i> </div> <div class="pop ui icon button trash" data-content="Delete this email"> <i class="trash icon"></i> </div> </td> </tr> </table> <div class="header"> {this.globals.email.subject} </div> <div class="content"> {this.globals.email.body_plain} </div> </div> <h4 class="ui horizontal header divider"> <i class="tasks icon"></i> Tasks </h4> <div class="ui divided items" id="emailtasks"> <email_tasks_list></email_tasks_list> </div> </div>', function(opts) {
     this.globals = this.parent.globals;
     this.on('mount', function() {
       var $node = $(this.root);
@@ -97,7 +111,7 @@ riot.tag('email_tasks_list', '<email_task each="{this.globals.email.tasks}" data
   
 });
 
-riot.tag('email_task', ' <div class="ui item"> <i class="circle thin icon red large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} {status} </div> <div class="meta">created {created_at_pretty}</div> <div class="content"> {content} </div> </div> ', function(opts) {
+riot.tag('email_task', ' <div class="ui item"> <i if="{status==\'Open\'}" class="circle thin icon green large"></i> <i if="{status==\'Completed\'}" class="check circle thin icon green large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} </div> <div class="meta">created {created_at_pretty}<span if="{completion_time_pretty}">, completed {completion_time_pretty}</span></div> <div class="content"> {content} </div> </div> ', function(opts) {
     this.globals = opts.data.parent.globals;
   
 });
@@ -148,6 +162,7 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
         success: function(data) {
           task = this.findBy(this.globals.email.tasks,'id',this.parent.id)
           task.status = 'Completed';
+          task.completion_time_pretty = data.completion_time_pretty;
           riot.update();
         }.bind(this),
         error: function(xhr, status, err) {
@@ -179,7 +194,12 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
         dataType: 'json',
         success: function(data) {
           this.globals.emails = data;
-          this.globals.email = data[0];
+          if (opts.email_id) {
+            this.globals.email = this.findBy(data,'id',opts.email_id);
+          } else {
+            this.globals.email = data[0];
+            this.globals.email_id = data[0].id;
+          };
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
@@ -203,6 +223,11 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
       project_id: opts.project_id,
       email: {}
     };
+
+
+
+
+
     riot.route(function(projects, project_id, emails, email_id) {
       this.globals.email_id = email_id;
       this.globals.project_id = project_id;
