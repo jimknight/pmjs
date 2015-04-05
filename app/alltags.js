@@ -1,6 +1,10 @@
 riot.tag('app', '', function(opts) {
     riot.route( function(projects,project_id,emails,email_id) {
       if (emails) {return false;};
+      if (projects == 'login') {
+        $('app').html('<login></login>');
+        riot.mount('login');
+      };
       if (projects== 'projects') {
         $('app').html('<projects_index></projects_index>');
         riot.mount('projects_index');
@@ -11,7 +15,12 @@ riot.tag('app', '', function(opts) {
       }
     });
     riot.route.exec( function(projects,project_id,emails,email_id) {
-      if (projects== 'projects') {
+      console.log('exec');
+      if (projects == 'login') {
+        $('app').html('<login></login>');
+        riot.mount('login');
+      };
+      if (!projects || projects== 'projects') {
         $('app').html('<projects_index></projects_index>');
         riot.mount('projects_index');
       };
@@ -176,6 +185,44 @@ riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }
     });
   
 });
+riot.tag('login', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <div class="eight wide column"> <form class="ui form"> <div class="ui error message"></div> <h4 class="ui dividing header">Enter your credentials</h4> <p>If you don\'t have any credentials, contact Jim</p> <div class="field"> <input type="email" name="email" placeholder="Email"> </div> <div class="field"> <input type="password" name="password" placeholder="Password"> </div> <div class="ui submit primary button" onclick="{ clickSubmitBtn }">Login</div> </form> </div> </div> </div>', function(opts) {
+    this.clickSubmitBtn = function() {
+      $('.ui.form').form({
+        email: {
+          identifier: 'email',
+          rules: [
+            {type: 'empty', prompt: 'Email is required'},
+            {type: 'email', prompt: 'Please enter a valid e-mail'}
+          ]
+        },
+        password: {
+          identifier: 'password',
+          rules: [
+            {type: 'empty',prompt: 'Password is required'},
+            {type: 'length[8]', prompt: 'Your password must be at least 8 characters'}
+          ]
+        }
+      });
+      if ($('.ui.form').form('validate form')) {
+        var postLoginUrl = "http://localhost:3000/api/v1";
+        $.auth.configure({apiUrl: postLoginUrl});
+        $.auth.emailSignIn({
+          email:    $('.ui.form input[name=email]').val(),
+          password: $('.ui.form input[name=password]').val()
+        })
+        .then(function(){
+          riot.route('projects');
+        })
+        .fail(function(resp){
+          $("div.error").html(resp.reason).show();
+          return false;
+        });
+      } else {
+        return false;
+      };
+    }.bind(this);
+  
+});
 riot.tag('navigation', '<div class="ui menu inverted"> <a class="active item"> <i class="home icon"></i> Home </a> <a class="item" href="#projects"> <i class="list layout icon"></i> Projects </a> <div class="right menu"> <div class="item"> <div class="ui transparent icon input"> <input type="text" placeholder="Search..."> <i class="search link icon"></i> </div> </div> </div> </div>', function(opts) {
 
 });
@@ -251,7 +298,12 @@ riot.tag('projects_index', '<div class="ui page grid"> <div class="row"> <naviga
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error(getProjectsUrl, status, err.toString());
+
+          if (err.toString() == "Unauthorized") {
+            riot.route('login');
+          } else {
+            console.error(getProjectsUrl, status, err.toString());
+          }
         }.bind(this)
       });
     }.bind(this);

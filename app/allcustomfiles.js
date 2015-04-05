@@ -1,6 +1,362 @@
+(function(deparam){
+    if (typeof require === 'function' && typeof exports === 'object' && typeof module === 'object') {
+        var jquery = require('jquery');
+        module.exports = deparam(jquery);
+    } else if (typeof define === 'function' && define.amd){
+        define(['jquery'], function(jquery){
+            return deparam(jquery);
+        });
+    } else {
+        var global = (false || eval)('this');
+        global.deparam = deparam(jQuery); // assume jQuery is in global namespace
+    }
+})(function ($) {
+    var deparam = function( params, coerce ) {
+        var obj = {},
+        coerce_types = { 'true': !0, 'false': !1, 'null': null };
+
+        // Iterate over all name=value pairs.
+        $.each( params.replace( /\+/g, ' ' ).split( '&' ), function(j,v){
+            var param = v.split( '=' ),
+            key = decodeURIComponent( param[0] ),
+            val,
+            cur = obj,
+            i = 0,
+
+            // If key is more complex than 'foo', like 'a[]' or 'a[b][c]', split it
+            // into its component parts.
+            keys = key.split( '][' ),
+            keys_last = keys.length - 1;
+
+            // If the first keys part contains [ and the last ends with ], then []
+            // are correctly balanced.
+            if ( /\[/.test( keys[0] ) && /\]$/.test( keys[ keys_last ] ) ) {
+                // Remove the trailing ] from the last keys part.
+                keys[ keys_last ] = keys[ keys_last ].replace( /\]$/, '' );
+
+                // Split first keys part into two parts on the [ and add them back onto
+                // the beginning of the keys array.
+                keys = keys.shift().split('[').concat( keys );
+
+                keys_last = keys.length - 1;
+            } else {
+                // Basic 'foo' style key.
+                keys_last = 0;
+            }
+
+            // Are we dealing with a name=value pair, or just a name?
+            if ( param.length === 2 ) {
+                val = decodeURIComponent( param[1] );
+
+                // Coerce values.
+                if ( coerce ) {
+                    val = val && !isNaN(val)            ? +val              // number
+                    : val === 'undefined'             ? undefined         // undefined
+                    : coerce_types[val] !== undefined ? coerce_types[val] // true, false, null
+                    : val;                                                // string
+                }
+
+                if ( keys_last ) {
+                    // Complex key, build deep object structure based on a few rules:
+                    // * The 'cur' pointer starts at the object top-level.
+                    // * [] = array push (n is set to array length), [n] = array if n is 
+                    //   numeric, otherwise object.
+                    // * If at the last keys part, set the value.
+                    // * For each keys part, if the current level is undefined create an
+                    //   object or array based on the type of the next keys part.
+                    // * Move the 'cur' pointer to the next level.
+                    // * Rinse & repeat.
+                    for ( ; i <= keys_last; i++ ) {
+                        key = keys[i] === '' ? cur.length : keys[i];
+                        cur = cur[key] = i < keys_last
+                        ? cur[key] || ( keys[i+1] && isNaN( keys[i+1] ) ? {} : [] )
+                        : val;
+                    }
+
+                } else {
+                    // Simple key, even simpler rules, since only scalars and shallow
+                    // arrays are allowed.
+
+                    if ( $.isArray( obj[key] ) ) {
+                        // val is already an array, so push on the next value.
+                        obj[key].push( val );
+
+                    } else if ( obj[key] !== undefined ) {
+                        // val isn't an array, but since a second value has been specified,
+                        // convert val into an array.
+                        obj[key] = [ obj[key], val ];
+
+                    } else {
+                        // val is a scalar.
+                        obj[key] = val;
+                    }
+                }
+
+            } else if ( key ) {
+                // No value was defined, so set something meaningful.
+                obj[key] = coerce
+                ? undefined
+                : '';
+            }
+        });
+
+        return obj;
+    };
+    $.fn.deparam = $.deparam = deparam;
+    return deparam;
+});
+
+/*! j-toker - v0.0.4 - 2015-03-24
+* Copyright (c) 2015 Lynn Dylan Hurley; Licensed WTFPL */
+!function(a){"function"==typeof define&&define.amd?define(["jquery","jquery-deparam","pubsub-js","jquery.cookie"],a):"object"==typeof exports?module.exports=a(require("jquery"),require("jquery-deparam"),require("pubsub-js"),require("jquery.cookie")):a(jQuery,window.deparam,window.PubSub)}(function(a,b,c){if(a.auth)return a.auth;var d=window.navigator,e="default",f="currentConfigName",g="authHeaders",h="auth.validation.success",i="auth.validation.error",j="auth.emailRegistration.success",k="auth.emailRegistration.error",l="auth.passwordResetRequest.success",m="auth.passwordResetRequest.error",n="auth.emailConfirmation.success",o="auth.emailConfirmation.error",p="auth.passwordResetConfirm.success",q="auth.passwordResetConfirm.error",r="auth.emailSignIn.success",s="auth.emailSignIn.error",t="auth.oAuthSignIn.success",u="auth.oAuthSignIn.error",v="auth.signIn.success",w="auth.signIn.error",x="auth.signOut.success",y="auth.signOut.error",z="auth.accountUpdate.success",A="auth.accountUpdate.error",B="auth.destroyAccount.success",C="auth.destroyAccount.error",D="auth.passwordUpdate.success",E="auth.passwordUpdate.error",F=function(){this.configured=!1,this.configs={},this.defaultConfigKey=null,this.firstTimeLogin=!1,this.mustResetPassword=!1,this.user={},this.oAuthDfd=null,this.oAuthTimer=null,this.configBase={apiUrl:"/api",signOutPath:"/auth/sign_out",emailSignInPath:"/auth/sign_in",emailRegistrationPath:"/auth",accountUpdatePath:"/auth",accountDeletePath:"/auth",passwordResetPath:"/auth/password",passwordUpdatePath:"/auth/password",tokenValidationPath:"/auth/validate_token",proxyIf:function(){return!1},proxyUrl:"/proxy",validateOnPageLoad:!1,forceHardRedirect:!1,storage:"cookies",cookieExpiry:14,cookiePath:"/",passwordResetSuccessUrl:function(){return window.location.href},confirmationSuccessUrl:function(){return window.location.href},tokenFormat:{"access-token":"{{ access-token }}","token-type":"Bearer",client:"{{ client }}",expiry:"{{ expiry }}",uid:"{{ uid }}"},parseExpiry:function(a){return 1e3*parseInt(a.expiry,10)||null},handleLoginResponse:function(a){return a.data},handleAccountUpdateResponse:function(a){return a.data},handleTokenValidationResponse:function(a){return a.data},authProviderPaths:{github:"/auth/github",facebook:"/auth/facebook",google:"/auth/google_oauth2"}}};F.prototype.reset=function(){this.destroySession(),this.configs={},this.defaultConfigKey=null,this.configured=!1,this.mustResetPassword=!1,this.firstTimeLogin=!1,this.oAuthDfd=null,this.oAuthTimer&&(clearTimeout(this.oAuthTimer),this.oAuthTimer=null);for(var b in this.user)delete this.user[b];a(document).unbind("ajaxComplete",this.updateAuthCredentials),window.removeEventListener&&window.removeEventListener("message",this.handlePostMessage),a.ajaxSetup({beforeSend:void 0})},F.prototype.invalidateTokens=function(){for(var a in this.user)delete this.user[a];this.deleteData(f),this.deleteData(g)},F.prototype.checkDependencies=function(){var d=[],e=[];if(!a)throw"jToker: jQuery not found. This module depends on jQuery.";if(window.localStorage||a.cookie||d.push("This browser does not support localStorage. You must install jquery-cookie to use jToker with this browser."),b||d.push("Dependency not met: jquery-deparam."),c||e.push("jquery.ba-tinypubsub.js not found. No auth events will be broadcast."),d.length){var f=d.join(" ");throw"jToker: Please resolve the following errors: "+f}if(e.length&&console&&console.warn){var g=e.join(" ");console.warn("jToker: Warning: "+g)}},F.prototype.destroySession=function(){var b=[g,f];for(var c in b)if(c=b[c],window.localStorage&&window.localStorage.removeItem(c),a.cookie)for(var d in this.configs){var e=this.configs[d].cookiePath;a.removeCookie(c,{path:e})}},F.prototype.configure=function(b,c){if(c&&this.reset(),this.configured=!0,b||(b={}),b.constructor!==Array){this.defaultConfigKey=e;var d={};d[this.defaultConfigKey]=b,b=[d]}for(var f in b){var g=G(b[f]);this.defaultConfigKey||(this.defaultConfigKey=g),this.configs[g]=a.extend({},this.configBase,b[f][g])}return this.checkDependencies(),a(document).ajaxComplete(a.auth.updateAuthCredentials),a.ajaxSetup({beforeSend:a.auth.appendAuthHeaders}),window.addEventListener&&window.addEventListener("message",this.handlePostMessage,!1),this.processSearchParams(),this.validateToken({config:this.getCurrentConfigName()})},F.prototype.getApiUrl=function(){var a=this.getConfig();return a.proxyIf()?a.proxyUrl:a.apiUrl},F.prototype.buildAuthHeaders=function(a){var b={},c=this.getConfig().tokenFormat;for(var d in c)b[d]=J(c[d],a);return b},F.prototype.setCurrentUser=function(b){for(var c in this.user)delete this.user[c];return a.extend(this.user,b),this.user.signedIn=!0,this.user.configName=this.getCurrentConfigName(),this.user},F.prototype.handlePostMessage=function(b){var c=!1;if("deliverCredentials"===b.data.message){delete b.data.message;var d=a.auth.normalizeTokenKeys(b.data),e=a.auth.buildAuthHeaders(d),f=a.auth.setCurrentUser(b.data);a.auth.persistData(g,e),a.auth.resolvePromise(t,a.auth.oAuthDfd,f),a.auth.broadcastEvent(v,f),a.auth.broadcastEvent(h,f),c=!0}"authFailure"===b.data.message&&(a.auth.rejectPromise(u,a.auth.oAuthDfd,b.data,"OAuth authentication failed."),a.auth.broadcastEvent(w,b.data),c=!0),c&&(clearTimeout(a.auth.oAuthTimer),a.auth.oAuthTimer=null)},F.prototype.normalizeTokenKeys=function(a){return a.token&&(a["access-token"]=a.token,delete a.token),a.auth_token&&(a["access-token"]=a.auth_token,delete a.auth_token),a.client_id&&(a.client=a.client_id,delete a.client_id),a.config&&(this.persistData(f,a.config,a.config),delete a.config),a},F.prototype.processSearchParams=function(){var a=this.getQs(),b=null;if(a=this.normalizeTokenKeys(a),a["access-token"]&&a.uid){b=this.buildAuthHeaders(a),this.persistData(g,b),a.reset_password&&(this.mustResetPassword=!0),a.account_confirmation_success&&(this.firstTimeLogin=!0);var c=this.getLocationWithoutParams(["access-token","token","auth_token","config","client","client_id","expiry","uid","reset_password","account_confirmation_success"]);this.setLocation(c)}return b},F.prototype.getLocationWithoutParams=function(b){var c=a.param(this.stripKeys(this.getSearchQs(),b)),d=a.param(this.stripKeys(this.getAnchorQs(),b)),e=window.location.hash.split("?")[0];c&&(c="?"+c),d&&(e+="?"+d),e&&!e.match(/^#/)&&(e="#/"+e);var f=window.location.protocol+"//"+window.location.host+window.location.pathname+c+e;return f},F.prototype.stripKeys=function(a,b){for(var c in b)delete a[b[c]];return a},F.prototype.broadcastEvent=function(a,b){c.publish&&c.publish(a,b)},F.prototype.resolvePromise=function(a,b,c){var d=this;setTimeout(function(){d.broadcastEvent(a,c),b.resolve(c)},0)},F.prototype.rejectPromise=function(b,c,d,e){var f=this;d=a.parseJSON(d.responseText||"{}"),setTimeout(function(){f.broadcastEvent(b,d),c.reject({reason:e,data:d})},0)},F.prototype.validateToken=function(b){b||(b={});var c=a.Deferred();if(this.retrieveData(g)){var d=this.getConfig(b.config),e=this.getApiUrl()+d.tokenValidationPath;a.ajax({url:e,context:this,success:function(a){var b=d.handleTokenValidationResponse(a);this.setCurrentUser(b),this.firstTimeLogin&&this.broadcastEvent(n,a),this.mustResetPassword&&this.broadcastEvent(p,a),this.resolvePromise(h,c,this.user)},error:function(a){this.invalidateTokens(),this.firstTimeLogin&&this.broadcastEvent(o,a),this.mustResetPassword&&this.broadcastEvent(q,a),this.rejectPromise(i,c,a,"Cannot validate token; token rejected by server.")}})}else this.invalidateTokens(),this.rejectPromise(i,c,{},"Cannot validate token; no token found.");return c.promise()},F.prototype.emailSignUp=function(b){b||(b={});var c=this.getConfig(b.config),d=this.getApiUrl()+c.emailRegistrationPath,e=a.Deferred();return b.config_name=b.config,delete b.config,b.confirm_success_url=c.confirmationSuccessUrl(),a.ajax({url:d,context:this,method:"POST",data:b,success:function(a){this.resolvePromise(j,e,a)},error:function(a){this.rejectPromise(k,e,a,"Failed to submit email registration.")}}),e.promise()},F.prototype.emailSignIn=function(b){b||(b={});var c=this.getConfig(b.config),d=this.getApiUrl()+c.emailSignInPath,e=a.Deferred();return delete b.config,a.ajax({url:d,context:this,method:"POST",data:b,success:function(a){var b=c.handleLoginResponse(a);this.setCurrentUser(b),this.resolvePromise(r,e,a),this.broadcastEvent(v,b),this.broadcastEvent(h,this.user)},error:function(a){this.rejectPromise(s,e,a,"Invalid credentials."),this.broadcastEvent(w,a)}}),e.promise()},F.prototype.listenForCredentials=function(a){if(a.closed)this.rejectPromise(u,this.oAuthDfd,null,"OAuth window was closed bofore registration was completed.");else{var b=this;a.postMessage("requestCredentials","*"),this.oAuthTimer=setTimeout(function(){b.listenForCredentials(a)},500)}},F.prototype.openAuthWindow=function(a){if(this.getConfig().forceHardRedirect||window.isIE())this.setLocation(a);else{var b=this.createPopup(a);this.listenForCredentials(b)}},F.prototype.buildOAuthUrl=function(a,b){var c=this.getConfig(a),d=this.getConfig().apiUrl+c.authProviderPaths.github+"?auth_origin_url="+encodeURIComponent(window.location.href)+"&config_name="+encodeURIComponent(a||this.getCurrentConfigName());if(b)for(var e in b)d+="&",d+=encodeURIComponent(e),d+="=",d+=encodeURIComponent(b[e]);return d},F.prototype.oAuthSignIn=function(b){if(b||(b={}),!b.provider)throw"jToker: provider param undefined for `oAuthSignIn` method.";var c=this.getConfig(b.config),d=c.authProviderPaths[b.provider],e=this.buildOAuthUrl(b.config,b.params);if(!d)throw"jToker: providerPath not found for provider: "+b.provider;return this.oAuthDfd=a.Deferred(),this.openAuthWindow(e),this.oAuthDfd.promise()},F.prototype.signOut=function(b){b||(b={});var c=this.getConfig(b.config),d=this.getApiUrl()+c.signOutPath,e=a.Deferred();return a.ajax({url:d,context:this,method:"DELETE",success:function(a){this.resolvePromise(x,e,a)},error:function(a){this.rejectPromise(y,e,a,"Failed to sign out.")},complete:function(){this.invalidateTokens()}}),e.promise()},F.prototype.updateAccount=function(b){b||(b={});var c=this.getConfig(b.config),d=this.getApiUrl()+c.accountUpdatePath,e=a.Deferred();return delete b.config,a.ajax({url:d,context:this,method:"PUT",data:b,success:function(a){var b=c.handleAccountUpdateResponse(a);this.setCurrentUser(b),this.resolvePromise(z,e,a)},error:function(a){this.rejectPromise(A,e,a,"Failed to update user account")}}),e.promise()},F.prototype.destroyAccount=function(b){b||(b={});var c=this.getConfig(b.config),d=this.getApiUrl()+c.accountDeletePath,e=a.Deferred();return a.ajax({url:d,context:this,method:"DELETE",success:function(a){this.invalidateTokens(),this.resolvePromise(B,e,a)},error:function(a){this.rejectPromise(C,e,a,"Failed to destroy user account")}}),e.promise()},F.prototype.requestPasswordReset=function(b){if(b||(b={}),void 0===b.email)throw"jToker: email param undefined for `requestPasswordReset` method.";var c=this.getConfig(b.config),d=this.getApiUrl()+c.passwordResetPath,e=a.Deferred();return b.config_name=b.config,delete b.config,b.redirect_url=c.passwordResetSuccessUrl(),a.ajax({url:d,context:this,method:"POST",data:b,success:function(a){this.resolvePromise(l,e,a)},error:function(a){this.rejectPromise(m,e,a,"Failed to submit email registration.")}}),e.promise()},F.prototype.updatePassword=function(b){b||(b={});var c=this.getConfig(b.config),d=this.getApiUrl()+c.passwordUpdatePath,e=a.Deferred();return delete b.config,a.ajax({url:d,context:this,method:"PUT",data:b,success:function(a){this.resolvePromise(D,e,a)},error:function(a){this.rejectPromise(E,e,a,"Failed to update password.")}}),e.promise()},F.prototype.persistData=function(b,c,d){switch(c=JSON.stringify(c),this.getConfig(d).storage){case"cookies":a.cookie(b,c,{expires:this.getConfig(d).cookieExpiry,path:this.getConfig(d).cookiePath});break;default:window.localStorage.setItem(b,c)}},F.prototype.retrieveData=function(b){var c=null;switch(this.getConfig().storage){case"cookies":c=a.cookie(b);break;default:c=window.localStorage.getItem(b)}try{return a.parseJSON(c)}catch(d){return H(c)}},F.prototype.getCurrentConfigName=function(){var b=null;return this.getQs().config&&(b=this.getQs().config),a.cookie&&!b&&(b=a.cookie(f)),window.localStorage&&!b&&(b=window.localStorage.getItem(f)),b=b||this.defaultConfigKey||e,H(b)},F.prototype.deleteData=function(b){switch(this.getConfig().storage){case"cookies":a.removeCookie(b,{path:this.getConfig().cookiePath});break;default:window.localStorage.removeItem(b)}},F.prototype.getConfig=function(a){if(!this.configured)throw"jToker: `configure` must be run before using this plugin.";return a=a||this.getCurrentConfigName(),this.configs[a]},F.prototype.appendAuthHeaders=function(b,c){var d=a.auth.retrieveData(g);if(I(c.url)&&d){b.setRequestHeader("If-Modified-Since","Mon, 26 Jul 1997 05:00:00 GMT");for(var e in a.auth.getConfig().tokenFormat)b.setRequestHeader(e,d[e])}},F.prototype.updateAuthCredentials=function(b,c,d){if(I(d.url)){var e={},f=!0;for(var h in a.auth.getConfig().tokenFormat)e[h]=c.getResponseHeader(h),e[h]&&(f=!1);f||a.auth.persistData(g,e)}},F.prototype.getRawSearch=function(){return window.location.search},F.prototype.getRawAnchor=function(){return window.location.hash},F.prototype.setRawAnchor=function(a){window.location.hash=a},F.prototype.getAnchorSearch=function(){var a=this.getRawAnchor().split("?");return a.length>1?a[1]:null},F.prototype.setRawSearch=function(a){window.location.search=a},F.prototype.setSearchQs=function(b){return this.setRawSearch(a.param(b)),this.getSearchQs()},F.prototype.setAnchorQs=function(b){return this.setAnchorSearch(a.param(b)),this.getAnchorQs()},F.prototype.setLocation=function(a){window.location.replace(a)},F.prototype.createPopup=function(a){return window.open(a)},F.prototype.getSearchQs=function(){var a=this.getRawSearch().replace("?",""),c=a?b(a):{};return c},F.prototype.getAnchorQs=function(){var a=this.getAnchorSearch(),c=a?b(a):{};return c},F.prototype.getQs=function(){return a.extend(this.getSearchQs(),this.getAnchorQs())};var G=function(a){for(var b in a)return b},H=function(a){return a&&a.replace(/("|')/g,"")},I=function(b){return b.match(a.auth.getApiUrl())},J=function(a,b){for(var c=function(a,c){return void 0===b[c]?a:b[c]},d=new RegExp("{{\\s*([a-z0-9-_]+)\\s*}}","ig"),e="";e!==a;a=(e=a).replace(d,c));return a};return window.isOldIE=function(){var a=!1,b=d.userAgent.toLowerCase();if(b&&-1!==b.indexOf("msie")){var c=parseInt(b.split("msie")[1]);10>c&&(a=!0)}return a},window.isIE=function(){var a=window.isOldIE(),b=!!d.userAgent.match(/Trident.*rv\:11\./);return a||b},a.auth=new F,a.auth});
 $( document ).ready(function() {
   $('.pop').popup();
 });
+/*
+Copyright (c) 2010,2011,2012,2013,2014 Morgan Roderick http://roderick.dk
+License: MIT - http://mrgnrdrck.mit-license.org
+
+https://github.com/mroderick/PubSubJS
+*/
+(function (root, factory){
+	'use strict';
+
+    if (typeof define === 'function' && define.amd){
+        // AMD. Register as an anonymous module.
+        define(['exports'], factory);
+
+    } else if (typeof exports === 'object'){
+        // CommonJS
+        factory(exports);
+
+    } else {
+        // Browser globals
+        var PubSub = {};
+        root.PubSub = PubSub;
+        factory(PubSub);
+    }
+}(( typeof window === 'object' && window ) || this, function (PubSub){
+	'use strict';
+
+	var messages = {},
+		lastUid = -1;
+
+	function hasKeys(obj){
+		var key;
+
+		for (key in obj){
+			if ( obj.hasOwnProperty(key) ){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	/**
+	 *	Returns a function that throws the passed exception, for use as argument for setTimeout
+	 *	@param { Object } ex An Error object
+	 */
+	function throwException( ex ){
+		return function reThrowException(){
+			throw ex;
+		};
+	}
+
+	function callSubscriberWithDelayedExceptions( subscriber, message, data ){
+		try {
+			subscriber( message, data );
+		} catch( ex ){
+			setTimeout( throwException( ex ), 0);
+		}
+	}
+
+	function callSubscriberWithImmediateExceptions( subscriber, message, data ){
+		subscriber( message, data );
+	}
+
+	function deliverMessage( originalMessage, matchedMessage, data, immediateExceptions ){
+		var subscribers = messages[matchedMessage],
+			callSubscriber = immediateExceptions ? callSubscriberWithImmediateExceptions : callSubscriberWithDelayedExceptions,
+			s;
+
+		if ( !messages.hasOwnProperty( matchedMessage ) ) {
+			return;
+		}
+
+		for (s in subscribers){
+			if ( subscribers.hasOwnProperty(s)){
+				callSubscriber( subscribers[s], originalMessage, data );
+			}
+		}
+	}
+
+	function createDeliveryFunction( message, data, immediateExceptions ){
+		return function deliverNamespaced(){
+			var topic = String( message ),
+				position = topic.lastIndexOf( '.' );
+
+			// deliver the message as it is now
+			deliverMessage(message, message, data, immediateExceptions);
+
+			// trim the hierarchy and deliver message to each level
+			while( position !== -1 ){
+				topic = topic.substr( 0, position );
+				position = topic.lastIndexOf('.');
+				deliverMessage( message, topic, data, immediateExceptions );
+			}
+		};
+	}
+
+	function messageHasSubscribers( message ){
+		var topic = String( message ),
+			found = Boolean(messages.hasOwnProperty( topic ) && hasKeys(messages[topic])),
+			position = topic.lastIndexOf( '.' );
+
+		while ( !found && position !== -1 ){
+			topic = topic.substr( 0, position );
+			position = topic.lastIndexOf( '.' );
+			found = Boolean(messages.hasOwnProperty( topic ) && hasKeys(messages[topic]));
+		}
+
+		return found;
+	}
+
+	function publish( message, data, sync, immediateExceptions ){
+		var deliver = createDeliveryFunction( message, data, immediateExceptions ),
+			hasSubscribers = messageHasSubscribers( message );
+
+		if ( !hasSubscribers ){
+			return false;
+		}
+
+		if ( sync === true ){
+			deliver();
+		} else {
+			setTimeout( deliver, 0 );
+		}
+		return true;
+	}
+
+	/**
+	 *	PubSub.publish( message[, data] ) -> Boolean
+	 *	- message (String): The message to publish
+	 *	- data: The data to pass to subscribers
+	 *	Publishes the the message, passing the data to it's subscribers
+	**/
+	PubSub.publish = function( message, data ){
+		return publish( message, data, false, PubSub.immediateExceptions );
+	};
+
+	/**
+	 *	PubSub.publishSync( message[, data] ) -> Boolean
+	 *	- message (String): The message to publish
+	 *	- data: The data to pass to subscribers
+	 *	Publishes the the message synchronously, passing the data to it's subscribers
+	**/
+	PubSub.publishSync = function( message, data ){
+		return publish( message, data, true, PubSub.immediateExceptions );
+	};
+
+	/**
+	 *	PubSub.subscribe( message, func ) -> String
+	 *	- message (String): The message to subscribe to
+	 *	- func (Function): The function to call when a new message is published
+	 *	Subscribes the passed function to the passed message. Every returned token is unique and should be stored if
+	 *	you need to unsubscribe
+	**/
+	PubSub.subscribe = function( message, func ){
+		if ( typeof func !== 'function'){
+			return false;
+		}
+
+		// message is not registered yet
+		if ( !messages.hasOwnProperty( message ) ){
+			messages[message] = {};
+		}
+
+		// forcing token as String, to allow for future expansions without breaking usage
+		// and allow for easy use as key names for the 'messages' object
+		var token = 'uid_' + String(++lastUid);
+		messages[message][token] = func;
+
+		// return token for unsubscribing
+		return token;
+	};
+
+	/* Public: Clears all subscriptions
+	 */
+	PubSub.clearAllSubscriptions = function clearAllSubscriptions(){
+		messages = {};
+	};
+
+	/*Public: Clear subscriptions by the topic
+	*/
+	PubSub.clearSubscriptions = function clearSubscriptions(topic){
+		var m; 
+		for (m in messages){
+			if (messages.hasOwnProperty(m) && m.indexOf(topic) === 0){
+				delete messages[m];
+			}
+		}
+	};
+
+	/* Public: removes subscriptions.
+	 * When passed a token, removes a specific subscription.
+	 * When passed a function, removes all subscriptions for that function
+	 * When passed a topic, removes all subscriptions for that topic (hierarchy)
+	 *
+	 * value - A token, function or topic to unsubscribe.
+	 *
+	 * Examples
+	 *
+	 *		// Example 1 - unsubscribing with a token
+	 *		var token = PubSub.subscribe('mytopic', myFunc);
+	 *		PubSub.unsubscribe(token);
+	 *
+	 *		// Example 2 - unsubscribing with a function
+	 *		PubSub.unsubscribe(myFunc);
+	 *
+	 *		// Example 3 - unsubscribing a topic
+	 *		PubSub.unsubscribe('mytopic');
+	 */
+	PubSub.unsubscribe = function(value){
+		var isTopic    = typeof value === 'string' && messages.hasOwnProperty(value),
+			isToken    = !isTopic && typeof value === 'string',
+			isFunction = typeof value === 'function',
+			result = false,
+			m, message, t;
+
+		if (isTopic){
+			delete messages[value];
+			return;
+		}
+
+		for ( m in messages ){
+			if ( messages.hasOwnProperty( m ) ){
+				message = messages[m];
+
+				if ( isToken && message[value] ){
+					delete message[value];
+					result = value;
+					// tokens are unique, so we can just stop here
+					break;
+				}
+
+				if (isFunction) {
+					for ( t in message ){
+						if (message.hasOwnProperty(t) && message[t] === value){
+							delete message[t];
+							result = true;
+						}
+					}
+				}
+			}
+		}
+
+		return result;
+	};
+}));
+
 /*!
  * # Semantic UI x.x - Dimmer
  * http://github.com/semantic-org/semantic-ui/
