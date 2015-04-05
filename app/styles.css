@@ -208,7 +208,13 @@ h4.divider {
   float: right; }
 
 #displayedemail {
+  margin-bottom: 1em;
   min-height: 350px; }
+  #displayedemail #displayedemaildetails {
+    margin-bottom: 1em; }
+
+.ui.items {
+  margin-top: 0; }
 
 .button.icon:hover {
   color: green; }
