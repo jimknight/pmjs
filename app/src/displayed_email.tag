@@ -17,7 +17,7 @@
             <div class="pop ui icon button" data-content="Create a task from this email" onclick="$('.dimmable').dimmer('show');return false;">
               <i class="plus icon"></i>
             </div>
-            <div class="pop ui icon button trash" data-content="Delete this email">
+            <div class="pop ui icon button trash" data-content="Delete this email" onclick={ deleteEmail }>
               <i class="trash icon"></i>
             </div>
           </td>
@@ -44,6 +44,38 @@
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
+    findBy (arr, propName, propValue) {
+      for (var i=0; i < arr.length; i++) {
+        if (arr[i][propName] == propValue) {
+          return arr[i];
+        }
+      }
+      return arr[0];
+    };
+    deleteEmail() {
+      // TODO Are you sure?
+      postEmailUrl = "http://localhost:3000/api/v1/emails/" + this.globals.email.id;
+      $.ajax({
+        url: postEmailUrl,
+        dataType: 'json',
+        type: 'POST',
+        data: {
+          '_method':'delete',
+          'id': this.globals.email.id
+        },
+        success: function(data) {
+          console.log(data);
+          email = this.findBy(this.globals.emails,'id',this.globals.email.id);
+          var index = this.globals.emails.indexOf(email);
+          this.globals.emails.splice(index, 1);
+          // TODO figure out the next email
+          riot.route('projects/' + this.globals.project_id);
+        }.bind(this),
+        error: function(xhr, status, err) {
+          console.error(postEmailUrl, status, err.toString());
+        }
+      });
+    }.bind(this);
   </script>
 </displayed_email>
 
