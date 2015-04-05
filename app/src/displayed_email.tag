@@ -3,31 +3,33 @@
     <div class="ui inverted dimmer">
       <new_task_form globals={globals}></new_task_form>
     </div>
-    <table style="margin-bottom:10px;width:100%;">
-      <tr>
-        <td style="padding-right:7px;width:30px">
-          <i class="user circular icon large" id="email-avatar"></i>
-        </td>
-        <td style="width:200px;">
-          {this.globals.email.sent_from}
-          <!-- {this.findEmail(this.globals.emails,'id',this.globals.email_id)} -->
-          <br/>sent 5 minutes ago
-        </td>
-        <td style="text-align:right;">
-          <div class="pop ui icon button" data-content="Create a task from this email" onclick="$('.dimmable').dimmer('show');return false;">
-            <i class="plus icon"></i>
-          </div>
-          <div class="pop ui icon button trash" data-content="Delete this email">
-            <i class="trash icon"></i>
-          </div>
-        </td>
-      </tr>
-    </table>
-    <div class="header">
-      {this.globals.email.subject}
-    </div>
-    <div class="content">
-      {this.globals.email.body_plain}
+    <div id="displayedemaildetails">
+      <table style="margin-bottom:10px;width:100%;">
+        <tr>
+          <td style="padding-right:7px;width:30px">
+            <i class="user circular icon large" id="email-avatar"></i>
+          </td>
+          <td style="width:200px;">
+            {this.globals.email.sent_from}
+            <!-- {this.findEmail(this.globals.emails,'id',this.globals.email_id)} -->
+            <br/>sent 5 minutes ago
+          </td>
+          <td style="text-align:right;">
+            <div class="pop ui icon button" data-content="Create a task from this email" onclick="$('.dimmable').dimmer('show');return false;">
+              <i class="plus icon"></i>
+            </div>
+            <div class="pop ui icon button trash" data-content="Delete this email">
+              <i class="trash icon"></i>
+            </div>
+          </td>
+        </tr>
+      </table>
+      <div class="header">
+        {this.globals.email.subject}
+      </div>
+      <div class="content">
+        {this.globals.email.body_plain}
+      </div>
     </div>
     <h4 class="ui horizontal header divider">
       <i class="tasks icon"></i>

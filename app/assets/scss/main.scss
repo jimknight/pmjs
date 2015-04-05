@@ -34,7 +34,15 @@ h4.divider {
 }
 
 #displayedemail {
+  margin-bottom:1em;
   min-height:350px;
+  #displayedemaildetails {
+    margin-bottom:1em;
+  }
+}
+
+.ui.items {
+  margin-top:0;
 }
 
 .button.icon {
