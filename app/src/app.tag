@@ -2,6 +2,10 @@
   <script>
     riot.route( function(projects,project_id,emails,email_id) {
       if (emails) {return false;};
+      if (projects == 'login') {
+        $('app').html('<login></login>');
+        riot.mount('login');
+      };
       if (projects== 'projects') {
         $('app').html('<projects_index></projects_index>');
         riot.mount('projects_index');
@@ -12,7 +16,12 @@
       }
     });
     riot.route.exec( function(projects,project_id,emails,email_id) {
-      if (projects== 'projects') {
+      console.log('exec');
+      if (projects == 'login') {
+        $('app').html('<login></login>');
+        riot.mount('login');
+      };
+      if (!projects || projects== 'projects') {
         $('app').html('<projects_index></projects_index>');
         riot.mount('projects_index');
       };

@@ -20,7 +20,12 @@
           this.update();
         }.bind(this),
         error: function(xhr, status, err) {
-          console.error(getProjectsUrl, status, err.toString());
+          // Login
+          if (err.toString() == "Unauthorized") {
+            riot.route('login');
+          } else {
+            console.error(getProjectsUrl, status, err.toString());
+          }
         }.bind(this)
       });
     };
