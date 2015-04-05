@@ -8,14 +8,15 @@
 <email_task>
   <!-- Display -->
   <div class="ui item">
-    <i class="circle thin icon red large"></i>
+    <i if={status=='Open'} class="circle thin icon green large"></i>
+    <i if={status=='Completed'} class="check circle thin icon green large"></i>
     <div class="actionbuttons">
       <email_task_action_buttons></email_task_action_buttons>
     </div>
     <div class="header">
-      {title} {status}
+      {title}
     </div>
-    <div class="meta">created {created_at_pretty}</div>
+    <div class="meta">created {created_at_pretty}<span if={completion_time_pretty}>, completed {completion_time_pretty}</span></div>
     <div class="content">
       {content}
     </div>
@@ -82,6 +83,7 @@
         success: function(data) {
           task = this.findBy(this.globals.email.tasks,'id',this.parent.id)
           task.status = 'Completed';
+          task.completion_time_pretty = data.completion_time_pretty;
           riot.update();
         }.bind(this),
         error: function(xhr, status, err) {
