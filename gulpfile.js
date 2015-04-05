@@ -53,7 +53,7 @@ gulp.task('concattag', function() {
 });
 
 // Compile the all tag file
-gulp.task('compiletag', ['concattag'], function() {
+gulp.task('compiletag', function() {
   return gulp.src('./app/alltags.tag')
     .pipe(riot())
     .pipe(gulp.dest('./app/'));
@@ -75,7 +75,9 @@ gulp.task('server', function() {
   gulp.watch("./app/assets/css/*.css", ['concatcss']);
   gulp.watch("./app/styles.css").on('change', reload);
   gulp.watch("./app/*.html").on('change', reload);
-  gulp.watch("./app/src/*.tag", ['concattag','compiletag']);
+  gulp.watch("./app/src/*.tag", ['concattag']);
+  gulp.watch("./app/alltags.tag", ['compiletag']);
+  gulp.watch("./app/alltags.js").on('change', reload);
   gulp.watch("./app/src/*.tag").on('change', reload);
 });
 
