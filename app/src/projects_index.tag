@@ -43,7 +43,7 @@
         <div class='content'>
           <a class='header' href={'#projects/' + id}>{title}</a>
           <div class='meta'>
-            <span class='cinema'>created 5 minutes ago</span>
+            <span class='cinema'>created {created_at_pretty}</span>
           </div>
           <div class='description'>
             <p>
