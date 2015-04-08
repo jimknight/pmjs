@@ -1,5 +1,6 @@
 <app>
   <script>
+    $.auth.configure({apiUrl: 'http://localhost:3000/api/v1'});
     riot.route( function(projects,project_id,emails,email_id) {
       if (emails) {return false;};
       if (projects == 'login') {
