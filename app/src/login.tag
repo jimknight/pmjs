@@ -21,6 +21,7 @@
     </div>
   </div>
   <script>
+    this.section = 'Home';
     clickSubmitBtn() {
       $('.ui.form').form({
         email: {

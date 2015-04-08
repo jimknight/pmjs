@@ -1,9 +1,9 @@
 <navigation>
   <div class='ui menu inverted'>
-    <a class='active item'>
+    <a class={section == 'Home' ? 'item active' : 'item'} href='#projects'>
       <i class='home icon'></i> Home
     </a>
-    <a class='item' href='#projects'>
+    <a class={section == 'Projects' ? 'item active' : 'item'} href='#projects'>
       <i class='list layout icon'></i> Projects
     </a>
     <div class="right menu">
@@ -19,6 +19,7 @@
       </div>
   </div>
   <script>
+    this.section = this.parent.section;
     this.loggedIn = !jQuery.isEmptyObject($.auth.user)
     logOut() {
       $.auth.signOut().then(function(){

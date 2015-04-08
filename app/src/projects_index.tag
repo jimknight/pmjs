@@ -15,6 +15,7 @@
     </div>
   </div>
   <script>
+    this.section = 'Projects';
     this.projects = [];
     loadProjectsFromServer() {
       getProjectsUrl='http://localhost:3000/api/v1/projects.json';
