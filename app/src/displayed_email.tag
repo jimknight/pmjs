@@ -14,7 +14,7 @@
             <br/>{this.globals.email.created_at_pretty}
           </td>
           <td style="text-align:right;">
-            <div class="pop ui icon button" data-content="Create a task from this email" onclick="$('.dimmable').dimmer('show');return false;">
+            <div class="pop ui icon button" data-content="Create a task from this email" onclick={ createTaskBtn }>
               <i class="plus icon"></i>
             </div>
             <div class="pop ui icon button trash" data-content="Delete this email" onclick={ deleteEmail }>
@@ -44,6 +44,9 @@
       var $node = $(this.root);
       $node.find('.pop').popup();
     });
+    createTaskBtn() {
+      $('.dimmable').dimmer('show');
+    };
     findBy (arr, propName, propValue) {
       for (var i=0; i < arr.length; i++) {
         if (arr[i][propName] == propValue) {
