@@ -2,7 +2,7 @@
   <div class="ui feed">
     <div class="event">
       <div class="label">
-        <img src="/images/avatar/small/elliot.jpg">
+
       </div>
       <div class="content">
         <div class="summary">
@@ -43,7 +43,6 @@
     </div>
     <div class="event">
       <div class="label">
-        <img src="/images/avatar/small/helen.jpg">
       </div>
       <div class="content">
         <div class="date">
@@ -53,8 +52,6 @@
           <a>Helen Troy</a> added <a>2 new illustrations</a>
         </div>
         <div class="extra images">
-          <a><img src="/images/wireframe/image.png"></a>
-          <a><img src="/images/wireframe/image.png"></a>
         </div>
         <div class="meta">
           <a class="like">
@@ -65,7 +62,6 @@
     </div>
     <div class="event">
       <div class="label">
-        <img src="/images/avatar/small/jenny.jpg">
       </div>
       <div class="content">
         <div class="summary">
@@ -85,7 +81,6 @@
     </div>
     <div class="event">
       <div class="label">
-        <img src="/images/avatar/small/joe.jpg">
       </div>
       <div class="content">
         <div class="summary">
@@ -106,7 +101,6 @@
     </div>
     <div class="event">
       <div class="label">
-        <img src="/images/avatar/small/justen.jpg">
       </div>
       <div class="content">
         <div class="date">
@@ -116,8 +110,6 @@
           <a>Justen Kitsune</a> added <a>2 new photos</a> of you
         </div>
         <div class="extra images">
-          <a><img src="/images/wireframe/image.png"></a>
-          <a><img src="/images/wireframe/image.png"></a>
         </div>
         <div class="meta">
           <a class="like">

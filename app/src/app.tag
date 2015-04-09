@@ -17,7 +17,6 @@
       }
     });
     riot.route.exec( function(projects,project_id,emails,email_id) {
-      console.log('exec');
       if (projects == 'login') {
         $('app').html('<login></login>');
         riot.mount('login');
