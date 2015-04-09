@@ -1,5 +1,8 @@
 <email_list>
   <div class='ui divided items' id="emaillist">
+    <div class='item' if={ this.globals.email_id == 0 }>
+      No emails yet
+    </div>
     <email_selector each={this.globals.emails} data="{ this }"></email_selector>
   </div>
   <script>

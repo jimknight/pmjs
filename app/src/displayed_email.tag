@@ -3,7 +3,10 @@
     <div class="ui inverted dimmer">
       <new_task_form globals={globals}></new_task_form>
     </div>
-    <div id="displayedemaildetails">
+    <div class="pop ui icon button" data-content="Create a task" onclick={ createTaskBtn }>
+      <i class="plus icon"></i>
+    </div>
+    <div id="displayedemaildetails" if={ this.globals.email_id > 0 }>
       <table style="margin-bottom:10px;width:100%;">
         <tr>
           <td style="padding-right:7px;width:30px">
@@ -14,7 +17,7 @@
             <br/>{this.globals.email.created_at_pretty}
           </td>
           <td style="text-align:right;">
-            <div class="pop ui icon button" data-content="Create a task from this email" onclick={ createTaskBtn }>
+            <div class="pop ui icon button" data-content="Create a task" onclick={ createTaskBtn }>
               <i class="plus icon"></i>
             </div>
             <div class="pop ui icon button trash" data-content="Delete this email" onclick={ deleteEmail }>

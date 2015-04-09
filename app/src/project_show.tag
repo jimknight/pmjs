@@ -28,41 +28,30 @@
         url: 'http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json',
         dataType: 'json',
         success: function(data) {
-          this.globals.emails = data;
-          if (opts.email_id) {
-            this.globals.email = this.findBy(data,'id',opts.email_id);
+          if (data.toString() == '') {
+            this.globals.email_id = 0;
           } else {
-            this.globals.email = data[0];
-            this.globals.email_id = data[0].id;
-          };
-          this.update();
+            this.globals.emails = data;
+            if (opts.email_id) {
+              this.globals.email = this.findBy(data,'id',opts.email_id);
+            } else {
+              this.globals.email = data[0];
+              this.globals.email_id = data[0].id;
+            };
+          }
+          riot.update();
         }.bind(this),
         error: function(xhr, status, err) {
           console.error('http://localhost:3000/api/v1/projects/' + this.globals.project_id + '/emails.json', status, err.toString());
         }.bind(this)
       });
     };
-    // addNewTask(task) {
-    //   this.globals.email.tasks.unshift(task);
-    //   this.update();
-    // };
-    // deleteTask(task_id) {
-    //   task = this.findBy(this.globals.email.tasks,'id',task_id);
-    //   var index = this.globals.email.tasks.indexOf(task);
-    //   this.globals.email.tasks.splice(index, 1);
-    //   this.update();
-    // };
     this.globals = {
       emails: [],
       email_id: opts.email_id,
       project_id: opts.project_id,
       email: {}
     };
-    // console.log(opts);
-    // console.log(this.globals);
-    // if (opts.email_id) {
-    //   this.globals.email = this.findBy(this.globals.emails,'id',opts.email_id);
-    // }
     riot.route(function(projects, project_id, emails, email_id) {
       this.globals.email_id = email_id;
       this.globals.project_id = project_id;
