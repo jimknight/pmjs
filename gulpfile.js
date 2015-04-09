@@ -10,6 +10,7 @@ var sourcemaps  = require('gulp-sourcemaps');
 var browserSync = require('browser-sync');
 var reload      = browserSync.reload;
 var rsync       = require('rsyncwrapper').rsync;
+var debug       = require('gulp-debug');
 
 // Deploy
 gulp.task('deploy', ['compiletag','localreplace'], function() {
@@ -48,15 +49,19 @@ gulp.task('concatcss', function() {
 // Concat all the tag files and then convert
 gulp.task('concattag', function() {
   return gulp.src('./app/src/*.tag')
+    .pipe(debug({title: 'src:'}))
     .pipe(concat('alltags.tag'))
-    .pipe(gulp.dest('./app/'));
+    .pipe(gulp.dest('./app/'))
+    .pipe(debug({title: 'dest:'}));
 });
 
 // Compile the all tag file
 gulp.task('compiletag', function() {
   return gulp.src('./app/alltags.tag')
+    .pipe(debug({title: 'src:'}))
     .pipe(riot())
-    .pipe(gulp.dest('./app/'));
+    .pipe(gulp.dest('./app/'))
+    .pipe(debug({title: 'dest:'}));
 });
 
 // Convert all custom js files into one js
