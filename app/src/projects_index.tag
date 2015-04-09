@@ -8,10 +8,6 @@
         <h1>Your Projects</h1>
         <project_selector each={projects}></project_selector>
       </div>
-      <div class="eight wide column">
-        <h1>What's happening?</h1>
-        <feed></feed>
-      </div>
     </div>
   </div>
   <script>
