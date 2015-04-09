@@ -13,14 +13,13 @@
             <i class="search link icon"></i>
           </div>
         </div>
-        <a if={ loggedIn } class="ui item" onclick={ logOut } id="logoutBtn">
+        <a if={ !jQuery.isEmptyObject($.auth.user) } class="ui item" onclick={ logOut } id="logoutBtn">
           Logout
         </a>
       </div>
   </div>
   <script>
     this.section = this.parent.section;
-    this.loggedIn = !jQuery.isEmptyObject($.auth.user)
     logOut() {
       $.auth.signOut().then(function(){
         riot.route('#login');
