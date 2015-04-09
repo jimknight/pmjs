@@ -3,7 +3,7 @@
     <div class="ui inverted dimmer">
       <new_task_form globals={globals}></new_task_form>
     </div>
-    <div class="pop ui icon button" data-content="Create a task" onclick={ createTaskBtn }>
+    <div if={ this.globals.email_id == 0 } class="pop ui icon button" data-content="Create a task" onclick={ createTaskBtn }>
       <i class="plus icon"></i>
     </div>
     <div id="displayedemaildetails" if={ this.globals.email_id > 0 }>
@@ -124,7 +124,8 @@
               title: $('#newtaskform input').val(),
               content: $('#newtaskform textarea').val(),
               status: 'Open',
-              email_id: this.globals.email_id
+              email_id: this.globals.email_id,
+              project_id: this.globals.project_id
             }
           },
           success: function(data) {
