@@ -5,17 +5,17 @@
     </div>
     <div class="row">
       <div class="eight wide column">
-        <form class="ui form">
+        <form class="ui form" onsubmit={ clickSubmitBtn }>
           <div class="ui error message"></div>
           <h4 class="ui dividing header">Enter your credentials</h4>
           <p>If you don't have any credentials, contact Jim</p>
           <div class="field">
-            <input type="email" name="email" placeholder="Email">
+            <input type="email" name="email" placeholder="Email" value="jimknight@lavatech.com">
           </div>
           <div class="field">
-            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="Password" value="secret1234">
           </div>
-          <div class="ui submit primary button" onclick={ clickSubmitBtn }>Login</div>
+          <input class="ui submit primary button" onclick={ clickSubmitBtn } type="submit" value="Login">
         </form>
       </div>
     </div>
