@@ -1,7 +1,7 @@
 {
   "name": "pmjs",
   "version": "1.0.0",
-  "description": "",
+  "description": "project mailboxes frontend",
   "main": "gulpfile.js",
   "dependencies": {
     "better-console": "^0.2.4",
@@ -48,6 +48,7 @@
     "gulp-jshint": "^1.9.4",
     "gulp-jsx": "^0.9.0",
     "gulp-react": "^3.0.1",
+    "gulp-replace": "^0.5.3",
     "gulp-riot": "^0.2.12",
     "gulp-run": "^1.6.7",
     "gulp-util": "^3.0.4",

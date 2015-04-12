@@ -13,7 +13,7 @@ var rsync       = require('rsyncwrapper').rsync;
 var debug       = require('gulp-debug');
 
 // Deploy
-gulp.task('deploy', ['compiletag','localreplace'], function() {
+gulp.task('deploy', function() {
   rsync({
     ssh: true,
     src: './app/',
