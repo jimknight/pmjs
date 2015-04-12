@@ -6,6 +6,7 @@
     <div class='row'>
       <div class="eight wide column">
         <h1>Your Projects</h1>
+        <a href='#projects/new' class="ui button primary">New Project</a><br><br>
         <project_selector each={projects}></project_selector>
       </div>
     </div>

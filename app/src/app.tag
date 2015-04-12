@@ -2,6 +2,11 @@
   <script>
     $.auth.configure({apiUrl: 'http://localhost:3000/api/v1'});
     riot.route( function(projects,project_id,emails,email_id) {
+      if (projects == 'projects' && project_id == 'new') {
+        $('app').html('<projects_new></projects_new>');
+        riot.mount('projects_new');
+        return true;
+      };
       if (emails == 'tasks') {
         console.log('tasks');
         $('app').html('<project_tasks_list></project_tasks_list>');
@@ -21,6 +26,11 @@
       }
     });
     riot.route.exec( function(projects,project_id,emails,email_id) {
+      if (projects == 'projects' && project_id == 'new') {
+        $('app').html('<projects_new></projects_new>');
+        riot.mount('projects_new');
+        return true;
+      };
       if (projects == 'login') {
         $('app').html('<login></login>');
         riot.mount('login');

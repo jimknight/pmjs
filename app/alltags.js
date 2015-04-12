@@ -1,6 +1,11 @@
 riot.tag('app', '', function(opts) {
     $.auth.configure({apiUrl: 'http://localhost:3000/api/v1'});
     riot.route( function(projects,project_id,emails,email_id) {
+      if (projects == 'projects' && project_id == 'new') {
+        $('app').html('<projects_new></projects_new>');
+        riot.mount('projects_new');
+        return true;
+      };
       if (emails == 'tasks') {
         console.log('tasks');
         $('app').html('<project_tasks_list></project_tasks_list>');
@@ -20,6 +25,11 @@ riot.tag('app', '', function(opts) {
       }
     });
     riot.route.exec( function(projects,project_id,emails,email_id) {
+      if (projects == 'projects' && project_id == 'new') {
+        $('app').html('<projects_new></projects_new>');
+        riot.mount('projects_new');
+        return true;
+      };
       if (projects == 'login') {
         $('app').html('<login></login>');
         riot.mount('login');
@@ -333,7 +343,7 @@ riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigati
     this.loadEmailsFromServer();
   
 });
-riot.tag('projects_index', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <div class="eight wide column"> <h1>Your Projects</h1> <project_selector each="{projects}"></project_selector> </div> </div> </div>', function(opts) {
+riot.tag('projects_index', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <div class="eight wide column"> <h1>Your Projects</h1> <a href="#projects/new" class="ui button primary">New Project</a><br><br> <project_selector each="{projects}"></project_selector> </div> </div> </div>', function(opts) {
     this.section = 'Projects';
     this.projects = [];
     this.loadProjectsFromServer = function() {
@@ -365,6 +375,59 @@ riot.tag('project_selector', '<div class="ui divided items"> <div class="ui grid
         'length': 50,
         'separator': ' '
       });
+    }.bind(this);
+  
+});
+riot.tag('projects_new', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <div class="eight wide column"> <h1>New Project</h1> <form class="ui form segment" id="newprojectform" onsubmit="{saveBtn}"> <div class="ui error message"></div> <div class="ui corner labeled input field"> <input type="text" name="title" placeholder="Project title"> <div class="ui corner label"> <i class="asterisk icon red"></i> </div> </div> <div class="ui corner labeled input field"> <input type="email" name="email" placeholder="Project email address"> <div class="ui corner label"> <i class="asterisk icon red"></i> </div> </div> <div class="field"> <textarea name="description" placeholder="Project description"></textarea> </div> <input class="ui button primary" type="submit" value="Save"> <button class="ui button" onclick="{cancelBtn}">Cancel</button> </form> </div> </div> </div>', function(opts) {
+    this.cancelBtn = function() {
+      history.back();
+    }.bind(this);
+    this.saveBtn = function() {
+      $('#newprojectform')
+        .form({
+          title: {
+            identifier: 'title',
+            rules: [{type: 'empty',prompt: 'Project title is required'}]
+          },
+          email: {
+            identifier: 'email',
+            rules: [{type: 'empty',prompt: 'Project email is required'}]
+          }
+        });
+      if ($('#newprojectform').form('validate form')) {
+        postProjectUrl = "http://localhost:3000/api/v1/projects";
+        $.ajax({
+          url: postProjectUrl,
+          dataType: 'json',
+          type: 'POST',
+          data: {
+            project: {
+              title: this.title.value,
+              email: this.email.value,
+              description: this.description.value
+            }
+          },
+          success: function(data) {
+            console.log(data);
+            riot.route('#projects')
+
+
+
+
+
+
+
+
+
+          }.bind(this),
+          error: function(xhr, status, err) {
+            console.error(postProjectUrl, status, err.toString());
+          }.bind(this)
+        });
+      } else {
+        $('#newprojectform input').focus();
+        return false;
+      }
     }.bind(this);
   
 });
