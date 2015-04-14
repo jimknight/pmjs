@@ -1,5 +1,9 @@
 body {
-  background: white; }
+  background: #EAECF0;
+  font-family: 'Montserrat', sans-serif; }
+
+a {
+  color: #45A1D6; }
 
 .content {
   white-space: pre-line; }
