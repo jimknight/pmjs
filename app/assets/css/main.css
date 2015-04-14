@@ -41,3 +41,9 @@ div.remove.icon:hover {
 
 div.trash.icon:hover {
   color: red; }
+
+.ui.inverted.menu, #header {
+  background: #394A57; }
+
+i.green.icon {
+  color: #52C27D !important; }

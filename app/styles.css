@@ -186,7 +186,11 @@ body.dimmed.dimmable > :not(.dimmer) {
 
 
 body {
-  background: white; }
+  background: #EAECF0;
+  font-family: 'Montserrat', sans-serif; }
+
+a {
+  color: #45A1D6; }
 
 .content {
   white-space: pre-line; }
@@ -224,6 +228,12 @@ div.remove.icon:hover {
 
 div.trash.icon:hover {
   color: red; }
+
+.ui.inverted.menu, #header {
+  background: #394A57; }
+
+i.green.icon {
+  color: #52C27D !important; }
 
 /*!
  * # Semantic UI x.x - Popup
@@ -519,7 +529,7 @@ div.trash.icon:hover {
 *******************************/
 
 
-
+/*
 body {
   font-family: 'myriad pro', sans-serif;
   font-size: 20px;
@@ -572,4 +582,4 @@ li {
 
 label {
   cursor: pointer;
-}
+}*/

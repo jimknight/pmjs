@@ -33,13 +33,6 @@
         {this.globals.email.body_plain}
       </div>
     </div>
-    <h4 class="ui horizontal header divider">
-      <i class="tasks icon"></i>
-      Tasks
-    </h4>
-    <div class="ui divided items" id="emailtasks">
-      <email_tasks_list></email_tasks_list>
-    </div>
   </div>
   <script>
     this.globals = this.parent.globals;

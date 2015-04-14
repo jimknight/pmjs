@@ -55,7 +55,7 @@ riot.tag('app', '', function(opts) {
     });
   
 });
-riot.tag('displayed_email', '<div class="ui message dimmable" id="displayedemail"> <div class="ui inverted dimmer"> <new_task_form globals="{globals}"></new_task_form> </div> <div if="{ this.globals.email_id == 0 }" class="pop ui icon button" data-content="Create a task" onclick="{ createTaskBtn }"> <i class="plus icon"></i> </div> <div id="displayedemaildetails" if="{ this.globals.email_id > 0 }"> <table style="margin-bottom:10px;width:100%;"> <tr> <td style="padding-right:7px;width:30px"> <i class="user circular icon large" id="email-avatar"></i> </td> <td style="width:200px;"> {this.globals.email.sent_from} <br>{this.globals.email.created_at_pretty} </td> <td style="text-align:right;"> <div class="pop ui icon button" data-content="Create a task" onclick="{ createTaskBtn }"> <i class="plus icon"></i> </div> <div class="pop ui icon button trash" data-content="Delete this email" onclick="{ deleteEmail }"> <i class="trash icon"></i> </div> </td> </tr> </table> <div class="header"> {this.globals.email.subject} </div> <div class="content"> {this.globals.email.body_plain} </div> </div> <h4 class="ui horizontal header divider"> <i class="tasks icon"></i> Tasks </h4> <div class="ui divided items" id="emailtasks"> <email_tasks_list></email_tasks_list> </div> </div>', function(opts) {
+riot.tag('displayed_email', '<div class="ui message dimmable" id="displayedemail"> <div class="ui inverted dimmer"> <new_task_form globals="{globals}"></new_task_form> </div> <div if="{ this.globals.email_id == 0 }" class="pop ui icon button" data-content="Create a task" onclick="{ createTaskBtn }"> <i class="plus icon"></i> </div> <div id="displayedemaildetails" if="{ this.globals.email_id > 0 }"> <table style="margin-bottom:10px;width:100%;"> <tr> <td style="padding-right:7px;width:30px"> <i class="user circular icon large" id="email-avatar"></i> </td> <td style="width:200px;"> {this.globals.email.sent_from} <br>{this.globals.email.created_at_pretty} </td> <td style="text-align:right;"> <div class="pop ui icon button" data-content="Create a task" onclick="{ createTaskBtn }"> <i class="plus icon"></i> </div> <div class="pop ui icon button trash" data-content="Delete this email" onclick="{ deleteEmail }"> <i class="trash icon"></i> </div> </td> </tr> </table> <div class="header"> {this.globals.email.subject} </div> <div class="content"> {this.globals.email.body_plain} </div> </div> </div>', function(opts) {
     this.globals = this.parent.globals;
     this.on('mount', function() {
       var $node = $(this.root);
@@ -176,12 +176,12 @@ riot.tag('email_tasks_list', '<email_task each="{this.globals.email.tasks}" data
   
 });
 
-riot.tag('email_task', ' <div class="ui item"> <i if="{status==\'Open\'}" class="circle thin icon green large"></i> <i if="{status==\'Completed\'}" class="check circle thin icon green large"></i> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div class="header"> {title} </div> <div class="meta">created {created_at_pretty}<span if="{completion_time_pretty}">, completed {completion_time_pretty}</span></div> <div class="content"> {content} </div> </div> ', function(opts) {
+riot.tag('email_task', '<div class="ui message emailtask"> <div class="actionbuttons"> <email_task_action_buttons></email_task_action_buttons> </div> <div if="{status==\'Open\'}" class="header"> Task </div> <div if="{status==\'Completed\'}" class="header"> <i class="check circle thin icon green large"></i> Task completed </div> <p>{title}</p> </div>', function(opts) {
     this.globals = opts.data.parent.globals;
   
 });
 
-riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }" class="ui icon button pop checkmark" onclick="{ markTaskComplete }" data-content="Mark task complete"> <i class="checkmark icon"></i> </div>  <div class="ui icon button pop trash" onclick="{ deleteTask }" data-content="Delete task"> <i class="trash icon"></i> </div>', function(opts) {
+riot.tag('email_task_action_buttons', '<div if="{ this.parent.status==\'Open\' }" class="ui icon button pop checkmark" onclick="{ markTaskComplete }" data-content="Mark task complete"> <i class="checkmark icon"></i> </div>  <div if="{ this.parent.status==\'Open\' }" class="ui icon button pop trash" onclick="{ deleteTask }" data-content="Delete task"> <i class="trash icon"></i> </div>', function(opts) {
     this.globals = this.parent.globals;
     this.findBy = function(arr, propName, propValue) {
       for (var i=0; i < arr.length; i++) {
@@ -293,7 +293,7 @@ riot.tag('navigation', '<div class="ui menu inverted"> <a class="{section == \'H
     }.bind(this);
   
 });
-riot.tag('project_show', '<div class="ui page grid"> <div class="row"> <navigation></navigation> </div> <div class="row"> <div class="six wide column"> <email_list></email_list> </div> <div class="ten wide column"> <displayed_email></displayed_email> </div> </div> </div>', function(opts) {
+riot.tag('project_show', '<div class="ui vertical segment" id="header"> <div class="ui page grid"> <div class="row"> <navigation></navigation> </div> </div> </div> </div> <br> <div class="ui page grid"> <div class="row"> <div class="four wide column"> <email_list></email_list> </div> <div class="eight wide column"> <displayed_email></displayed_email> </div> <div class="four wide column"> <div class="ui divided items" id="emailtasks"> <email_tasks_list></email_tasks_list> </div> </div> </div> </div>', function(opts) {
     this.section = 'Projects';
     this.findBy = function(arr, propName, propValue) {
       for (var i=0; i < arr.length; i++) {
@@ -369,7 +369,7 @@ riot.tag('projects_index', '<div class="ui page grid"> <div class="row"> <naviga
   
 });
 
-riot.tag('project_selector', '<div class="ui divided items"> <div class="ui grid"> <div class="two wide column"> <i class="circular user icon large"></i> </div> <div class="fourteen wide column"> <div class="content"> <a class="header" href="{\'#projects/\' + id}">{title}</a> <div class="meta"> <span class="cinema">created {created_at_pretty}</span> </div> <div class="description"> <p> {shorten(description)}<br> <a href=mailto:{email}>{email}</a> </p> </div> </div> </div> </div> </div>', function(opts) {
+riot.tag('project_selector', '<div class="ui divided items"> <div class="ui grid"> <div class="two wide column"> <i class="circular user icon large"></i> </div> <div class="fourteen wide column"> <div class="content"> <a class="header" href="{\'#projects/\' + id}">{title}</a> (<a href="{\'#projects/\' + id + \'/tasks\'}">Tasks</a>) <div class="meta"> <span class="cinema">created {created_at_pretty}</span> </div> <div class="description"> <p> {shorten(description)}<br> <a href=mailto:{email}>{email}</a> </p> </div> </div> </div> </div> </div>', function(opts) {
     this.shorten = function(longString) {
       return _.trunc(longString, {
         'length': 50,

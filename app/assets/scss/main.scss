@@ -1,5 +1,10 @@
 body {
-  background: white;
+  background: #EAECF0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+a {
+  color: #45A1D6;
 }
 
 .content {
@@ -33,6 +38,17 @@ h4.divider {
   }
 }
 
+// .emailtask {
+//   margin-bottom:1em;
+//   background: white;
+//   .header {
+//     padding: 1em;
+//   }
+//   .description {
+//     padding: 1em;
+//   }
+// }
+
 #displayedemail {
   margin-bottom:1em;
   min-height:350px;
@@ -59,4 +75,12 @@ div.trash.icon {
   &:hover {
     color:red;
   }
+}
+
+.ui.inverted.menu, #header {
+  background: #394A57;
+}
+
+i.green.icon {
+  color: #52C27D !important;
 }

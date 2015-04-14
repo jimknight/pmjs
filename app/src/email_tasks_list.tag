@@ -6,22 +6,19 @@
 </email_tasks_list>
 
 <email_task>
-  <!-- Display -->
-  <div class="ui item">
-    <i if={status=='Open'} class="circle thin icon green large"></i>
-    <i if={status=='Completed'} class="check circle thin icon green large"></i>
+  <div class="ui message emailtask">
     <div class="actionbuttons">
       <email_task_action_buttons></email_task_action_buttons>
     </div>
-    <div class="header">
-      {title}
+    <div if={status=='Open'} class="header">
+      Task
     </div>
-    <div class="meta">created {created_at_pretty}<span if={completion_time_pretty}>, completed {completion_time_pretty}</span></div>
-    <div class="content">
-      {content}
+    <div if={status=='Completed'} class="header">
+      <i class="check circle thin icon green large"></i>
+      Task completed
     </div>
+    <p>{title}</p>
   </div>
-  <!-- Logic -->
   <script>
     this.globals = opts.data.parent.globals;
   </script>
@@ -34,7 +31,7 @@
 <!--   <div class="ui icon button pop remove" data-content="Cancel task">
     <i class="remove icon"></i>
   </div> -->
-  <div class="ui icon button pop trash" onclick={ deleteTask } data-content="Delete task">
+  <div if={ this.parent.status=='Open' } class="ui icon button pop trash" onclick={ deleteTask } data-content="Delete task">
     <i class="trash icon"></i>
   </div>
   <script>
