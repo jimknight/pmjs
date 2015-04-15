@@ -14,7 +14,7 @@
           </div>
         </div>
         <a if={ !jQuery.isEmptyObject($.auth.user) } class="ui item" onclick={ logOut } id="logoutBtn">
-          Logout
+          Logout <i class='sign out icon'></i>
         </a>
       </div>
   </div>
