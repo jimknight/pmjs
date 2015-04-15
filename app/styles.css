@@ -187,6 +187,7 @@ body.dimmed.dimmable > :not(.dimmer) {
 
 body {
   background: #EAECF0;
+  color: #555;
   font-family: 'Montserrat', sans-serif; }
 
 a {
@@ -202,14 +203,17 @@ h4.divider {
   padding: 10px;
   border-bottom: 1px solid #e2e2e2; }
 
-#emaillist .active {
-  background: #e0e0e0; }
+#emaillist .active a {
+  color: #52C27D; }
 
 #emailtasks i {
   display: inline-block;
   float: left; }
 #emailtasks .actionbuttons {
   float: right; }
+
+#header {
+  padding: 0; }
 
 #displayedemail {
   margin-bottom: 1em;
@@ -231,6 +235,9 @@ div.trash.icon:hover {
 
 .ui.inverted.menu, #header {
   background: #394A57; }
+
+.ui.message, .ui.steps {
+  color: #555; }
 
 i.green.icon {
   color: #52C27D !important; }

@@ -1,5 +1,5 @@
 <displayed_email>
-  <div class="ui message dimmable" id="displayedemail">
+  <div class="dimmable" id="displayedemail">
     <div class="ui inverted dimmer">
       <new_task_form globals={globals}></new_task_form>
     </div>

@@ -1,5 +1,6 @@
 body {
   background: #EAECF0;
+  color: #555;
   font-family: 'Montserrat', sans-serif;
 }
 
@@ -22,10 +23,8 @@ h4.divider {
   }
 }
 
-#emaillist {
-  .active {
-    background:#e0e0e0;
-  }
+#emaillist .active a {
+  color: #52C27D;
 }
 
 #emailtasks {
@@ -36,6 +35,10 @@ h4.divider {
   .actionbuttons {
     float:right;
   }
+}
+
+#header {
+  padding: 0;
 }
 
 // .emailtask {
@@ -79,6 +82,10 @@ div.trash.icon {
 
 .ui.inverted.menu, #header {
   background: #394A57;
+}
+
+.ui.message, .ui.steps {
+  color: #555;
 }
 
 i.green.icon {

@@ -1,25 +1,28 @@
 <project_show>
   <div class="ui vertical segment" id="header">
-      <div class="ui page grid">
-        <div class='row'>
+      <div class="ui padded grid">
+        <div class='column'>
           <navigation></navigation>
         </div>
       </div>
     </div>
   </div>
-  <br>
-  <div class='ui page grid'>
-    <div class='row'>
-      <div class='four wide column'>
-        <email_list></email_list>
-      </div>
-      <div class='eight wide column'>
-        <displayed_email></displayed_email>
-      </div>
-      <div class='four wide column'>
-        <div class="ui divided items" id="emailtasks">
-          <email_tasks_list></email_tasks_list>
+  <div class='ui padded grid'>
+    <div class='twelve wide column'>
+      <div class="ui message" style="padding-top:0;">
+        <div class="ui grid">
+          <div class="five wide column">
+            <email_list></email_list>
+          </div>
+          <div class="eleven wide column">
+            <displayed_email></displayed_email>
+          </div>
         </div>
+      </div>
+    </div>
+    <div class='four wide column'>
+      <div class="ui divided items" id="emailtasks">
+        <email_tasks_list></email_tasks_list>
       </div>
     </div>
   </div>
